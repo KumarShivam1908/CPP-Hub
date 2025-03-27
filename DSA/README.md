@@ -1,4 +1,4 @@
-# NEETCODE 150 Solutions USING CPP
+# NEETCODE 150 Solutions USING C++
 
 ## Overview
 
@@ -46,3 +46,21 @@ This collection is designed specifically to help you:
 5. Handle edge cases that are commonly tested in interviews
 
 Happy coding and good luck with your interview preparation! 🚀
+
+
+## Development Environment Setup
+
+### VS Code LeetCode Extension
+
+For a seamless coding experience, this repository was developed using the **LeetCode extension for Visual Studio Code**. This powerful extension allows you to:
+
+- Browse LeetCode problems directly within VS Code
+- Code and submit solutions without leaving your editor
+- Test your solutions against example test cases
+- Track your progress and submission statistics
+- Easily organize solutions by difficulty and categories
+
+This setup significantly streamlines the problem-solving workflow and eliminates the need to switch between browser and code editor.
+
+
+![img](./ASSETS/2.png)

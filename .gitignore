@@ -1,0 +1,33 @@
+# Ignore assets folder
+ASSETS/
+assets/
+
+# C++ related
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.user
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
+# Build directories
+build/
+debug/
+release/
+x64/
+x86/
+
+# OS specific files
+.DS_Store
+Thumbs.db
