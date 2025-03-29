@@ -60,3 +60,73 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 
 > **Note:** `-std=c++17` specifies the C++ standard version, with available versions including C++11, C++14, C++17, C++20, C++23, and the upcoming C++26, each introducing new features and improvements.
 
+## Fundamental Types in CPP
+
+### **1. Integral Types**
+
+| Type Specifier           | Equivalent Type          | Minimum Width (bits) | Signedness | Description |
+|--------------------------|-------------------------|----------------------|------------|-------------|
+| `int`                   | `signed int`            | 16                   | Signed     | Basic integer type. Typically 32 bits on modern systems. |
+| `unsigned`              | `unsigned int`          | 16                   | Unsigned   | Non-negative integer type. |
+| `short`                 | `short int`             | 16                   | Signed     | Optimized for space. |
+| `unsigned short`        | `unsigned short int`    | 16                   | Unsigned   | Optimized for space. |
+| `long`                  | `long int`              | 32                   | Signed     | At least 32 bits. |
+| `unsigned long`         | `unsigned long int`     | 32                   | Unsigned   | At least 32 bits. |
+| `long long` (C++11)     | `long long int`         | 64                   | Signed     | At least 64 bits. |
+| `unsigned long long`    | `unsigned long long int` | 64                  | Unsigned   | At least 64 bits. |
+| `signed char`           | `signed char`           | 8                    | Signed     | Smallest signed integer type. |
+| `unsigned char`         | `unsigned char`         | 8                    | Unsigned   | Smallest unsigned integer type. |
+
+### **2. Extended Integer Types** (Implementation-Defined)
+
+| Type            | Description |
+|----------------|-------------|
+| `std::size_t`  | Unsigned integer type for `sizeof` and `alignof`. |
+| Fixed-width types | Typically aliases of standard integer types. |
+
+---
+
+### **3. Character Types**
+
+| Type Specifier    | Equivalent Type           | Description |
+|-------------------|--------------------------|-------------|
+| `char`           | `char`                     | Character representation. May be signed or unsigned. |
+| `signed char`    | `signed char`              | Signed character representation. |
+| `unsigned char`  | `unsigned char`            | Unsigned character representation. |
+| `wchar_t`        | `wchar_t`                  | Wide character representation (UTF-16 on Windows, UTF-32 on Linux). |
+| `char16_t`       | `std::uint_least16_t`      | UTF-16 character representation. (C++11) |
+| `char32_t`       | `std::uint_least32_t`      | UTF-32 character representation. (C++11) |
+| `char8_t`        | `unsigned char`            | UTF-8 character representation. (C++20) |
+
+### **Character Type Properties**
+- `sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long) ≤ sizeof(long long)`.
+- `wchar_t`, `char16_t`, and `char32_t` are distinct types but have same size, alignment, and signedness as corresponding integer types.
+
+---
+
+### **4. Floating-Point Types**
+
+| Type Specifier    | Precision | Format (Typical) | Description |
+|------------------|----------|----------------|-------------|
+| `float`         | Single   | IEEE-754 binary32 | Single precision, 32-bit floating point. |
+| `double`        | Double   | IEEE-754 binary64 | Double precision, 64-bit floating point. |
+| `long double`   | Extended | IEEE-754 binary128 / x87 80-bit | Extended precision (varies by implementation). |
+
+### **Floating-Point Type Properties**
+
+| Special Values | Description |
+|---------------|-------------|
+| `INFINITY`    | Positive and negative infinity. |
+| `-0.0`        | Negative zero, useful in arithmetic. |
+| `NaN`         | Not-a-number, does not compare equal to anything. |
+| `std::nan`    | Quiet NaN value. |
+
+### **Floating-Point Operations**
+- Support arithmetic operations (`+`, `-`, `*`, `/`) and functions from `<cmath>`.
+- May raise floating-point exceptions and set `errno`.
+- Expressions can have extended precision (`FLT_EVAL_METHOD`).
+- Some operations modify floating-point environment (e.g., rounding direction).
+- Implicit conversions exist between floating-point and integer types.
+
+This table provides a comprehensive summary of C++ fundamental numeric types, including their properties, minimum sizes, and behavior.
+
