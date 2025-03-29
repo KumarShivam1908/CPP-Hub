@@ -2,7 +2,7 @@
 
 ## 1.  C++ Build Process
 
-![Build Process Overview](./Assets/image.png)
+![Build Process Overview](./Assets/image1.png)
 
 
 As C++ programmers, we primarily work with source (.cpp) and header (.h) files during development. The build process consists of three main stages:
