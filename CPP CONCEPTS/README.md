@@ -60,7 +60,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 
 > **Note:** `-std=c++17` specifies the C++ standard version, with available versions including C++11, C++14, C++17, C++20, C++23, and the upcoming C++26, each introducing new features and improvements.
 
-## Fundamental Types in CPP
+## 3. Fundamental Types in CPP
 
 ### **1. Integral Types**
 
@@ -128,5 +128,10 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 - Some operations modify floating-point environment (e.g., rounding direction).
 - Implicit conversions exist between floating-point and integer types.
 
-This table provides a comprehensive summary of C++ fundamental numeric types, including their properties, minimum sizes, and behavior.
+## 4. The `const` Keyword
 
+```cpp
+const float PI = 3.14f;
+```
+
+The `const` keyword makes variables **immutable** and doesn't let the variable value change throughout the program. If someone tries to modify a const variable, it throws a compile-time error. The intuition behind using it is when you want to fix a value which you won't be changing throughout your code.
