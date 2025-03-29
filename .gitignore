@@ -1,6 +1,6 @@
 # Ignore assets folder
-ASSETS/
-assets/
+# ASSETS/
+# Assets/
 
 # C++ related
 *.o
