@@ -1,4 +1,4 @@
-# SDL2 and OpenGL Context Creation Documentation
+# SDL2 and OpenGL Context Creation 
 
 ## Overview
 This program demonstrates how to create an SDL2 window with an OpenGL context, initialize OpenGL using the Glad library, and display OpenGL version information. It also includes an event handling loop to process user inputs and terminate the program when requested.
