@@ -3,12 +3,7 @@
 ## Overview
 Modern real-time image generation is based on **rasterization** - the process of converting 3D models into 2D pixels on your screen.
 
-- Input
-    - 3D "primitives" (mainly triangles)
-    - Additional attributes (colors, textures, etc.)
-
-- Output
-    - Bitmap image (the final picture you see)
+![img](./Assets/12.png)
 
 ## Goal
 To understand the stages between 3D models and the final 2D image on your screen.
