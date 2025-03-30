@@ -4,17 +4,8 @@
 This program demonstrates how to create an SDL2 window with an OpenGL context, initialize OpenGL using the Glad library, and display OpenGL version information. It also includes an event handling loop to process user inputs and terminate the program when requested.
 
 ## Folder Structure
-CPP-Hub/GRAPHICS/Coding/
-│── README.md           # Documentation file (likely explains project setup, usage, etc.)
-│── main.cpp            # Main source file containing SDL2 and OpenGL initialization
-│── include/            # Header files for external libraries
-│   ├── KHR/
-│   │   └── khrplatform.h  # Khronos platform-specific header for OpenGL
-│   └── glad/
-│       └── glad.h        # Glad OpenGL loader header file
-│── src/                 # Source files directory
-│   └── glad.c           # Source file for Glad (used for OpenGL function loading)
 
+<img src="/GRAPHICS/Theory/Assets/tree_folder_structure.png" alt="Pinhole Camera" width="500" />
 
 ## Requirements
 To compile and run this program, you need:
