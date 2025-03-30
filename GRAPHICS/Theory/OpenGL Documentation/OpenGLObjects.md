@@ -80,21 +80,3 @@ glEnableVertexAttribArray(1);
 glBindBuffer(GL_ARRAY_BUFFER, 0); // Optional VBO unbind
 glBindVertexArray(0);             // VAO unbind (good practice)
 ```
-## Rendering Code
-```cpp
-
-// In render loop:
-glUseProgram(shaderProgram);       // Activate shader
-glBindVertexArray(VAO);            // Bind VAO (auto-recalls VBO+configs)
-
-// Draw call (using currently bound VAO)
-glDrawArrays(
-    GL_TRIANGLES,                 // Primitive type
-    0,                            // Starting index
-    3                             // Vertex count (3 for a triangle)
-);
-
-// Alternative for indexed drawing (with EBO):
-// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-```
