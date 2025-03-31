@@ -1,7 +1,7 @@
-# Rasterization Pipeline
+# **Rasterization Pipeline: Turning 3D Models into Pixels**
 
-## Overview
-Modern real-time image generation is based on **rasterization** - the process of converting 3D models into 2D pixels on your screen.
+Alright, let’s talk about **rasterization**—the process that takes a 3D scene and turns it into the 2D image on your screen. If you’ve ever wondered how video games, animations, or interactive graphics actually get displayed, this is the magic behind it!
+
 
 ![img](./Assets/12.png)
 
