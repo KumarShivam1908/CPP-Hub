@@ -2,9 +2,9 @@
 
 ## Overview
 
-This folder contains comprehensive solutions to the **NEETCODE 150** problems, a curated list of the most important 150 LeetCode questions covering all essential data structures and algorithms concepts for coding interviews.
+This folder contains comprehensive solutions to the **NEETCODE 250** problems, a curated list of the most important 150 LeetCode questions covering all essential data structures and algorithms concepts for coding interviews.
 
-🔗 [NEETCODE 150](https://neetcode.io/practice) - A structured approach to LeetCode's top interview questions
+🔗 [NEETCODE 250](https://neetcode.io/practice?tab=neetcode250) - A structured approach to LeetCode's top interview questions
 
 ## Data Structures Covered
 
