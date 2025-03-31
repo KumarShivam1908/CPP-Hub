@@ -10,7 +10,7 @@ Welcome to **CPP-Hub**, where we take C++ from "Hello, World!" to "Wow, this is 
 This repository is neatly packed with handpicked C++ goodness:
 
 ### 🧠 DSA - Data Structures & Algorithms
-- **NEETCODE 150** - because solving problems builds character
+- **NEETCODE 250** - because solving problems builds character
 - Multiple solutions with time-space trade-offs (choose wisely)
 - Thought process breakdowns (no magic, just logic)
 - Clean, well-commented code - your future self will thank you!
