@@ -1,4 +1,4 @@
-# NEETCODE 150 Solutions USING C++
+# NEETCODE 250 Solutions USING C++
 
 ## Overview
 
