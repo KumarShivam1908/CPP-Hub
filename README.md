@@ -54,3 +54,8 @@ This project is licensed under the GNU General Public License v3.0 - because sha
 
 *Become a C++ expert, or at least sound like one. Happy coding!* 👨‍💻👩‍💻
 
+## Get Involved
+If you share our enthusiasm for graphics programming, feel free to explore, contribute, or reach out! 🚀  
+
+📧 Contact: [Kumar Shivam](mailto:shivam.pragati3299@gmail.com)
+📌 [LinkedIn](https://www.linkedin.com/in/kumar-shivam-b8b196258/)
