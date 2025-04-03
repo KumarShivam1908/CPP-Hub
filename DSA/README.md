@@ -46,7 +46,44 @@ This collection is designed specifically to help you:
 5. Handle edge cases that are commonly tested in interviews
 
 Happy coding and good luck with your interview preparation! 🚀
+## 📚 How to Study This Repository
 
+
+
+
+
+
+
+
+### 🛣️ Learning Path
+The recommended learning path follows the NeetCode roadmap:
+
+<img src="./ASSETS/roadmap.png" width="600" height="400" alt="NeetCode 250 Learning Roadmap"/>
+
+*Image credit: This roadmap is taken from neetcode.io and provides a structured approach to mastering algorithmic problems.*
+
+Start with Arrays & Hashing problems, then progress through the topics in order of increasing complexity. The roadmap visually guides you through dependencies between topics, ensuring you build a solid foundation before tackling advanced concepts.
+
+[NeetCode Roadmap](https://neetcode.io/roadmap)
+
+### 🧠 Problem-Solving Cycle
+
+<div align="center">
+
+| 🔍 Try First | 📝 Compare | 📈 Optimize | 🔁 Review |
+|-------------|-----------|------------|----------|
+| Spend 30 min<br>on your solution | Check against<br>provided code | Understand time &<br>space complexity | Revisit after<br>a few days |
+
+</div>
+
+### ✨ Level Up Your Skills
+
+* **Track Progress** - Create a personal roadmap ⛰️
+* **Spaced Repetition** - Schedule regular reviews 🔄
+* **Teach Concepts** - Solidify by explaining to others 👨‍🏫
+* **Challenge Yourself** - Modify constraints for extra practice 🏋️‍♂️
+
+> 💡 **Pro Tip**: Focus on patterns, not memorization. The same techniques appear across multiple problem categories!
 
 ## Development Environment Setup
 
