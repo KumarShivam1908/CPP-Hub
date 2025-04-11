@@ -7,7 +7,8 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
-
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 GLint modelLoc, viewLoc, projLoc;
 
@@ -22,6 +23,8 @@ GLuint gVAO = 0;
 GLuint gVBO = 0;
 GLuint gVBOColor = 0;
 GLuint gProgramPipeline = 0;
+GLuint gTexture = 0;
+GLuint gVBOTexCoord = 0;
 
 bool gquit = false;
 
@@ -42,8 +45,10 @@ string getVertexShaderSource() {
     return R"(#version 410 core
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 vertexColor;
+layout(location = 2) in vec2 inTexCoord;
 
 out vec3 fragColor;
+out vec2 texCoord;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -51,6 +56,7 @@ uniform mat4 projection;
 
 void main() {
     fragColor = vertexColor;
+    texCoord = inTexCoord;
     gl_Position = projection * view * model * vec4(position, 1.0);
 })";
 }
@@ -58,11 +64,16 @@ void main() {
 string getFragmentShaderSource() {
     return R"(#version 410 core
 in vec3 fragColor;
+in vec2 texCoord;
+
 out vec4 Color;
+
+uniform sampler2D textureSampler;
 
 void main()
 {
-    Color = vec4(fragColor, 1.0);
+    vec4 texColor = texture(textureSampler, texCoord);
+    Color = vec4(fragColor, 1.0) * texColor;
 })";
 }
 
@@ -124,10 +135,15 @@ GLuint createShaderProgram(const string &vertexShaderSource, const string &fragm
 }
 
 void CreateGraphicsPipeline(){
-    
-    string vertexShaderSource = getVertexShaderSource();
-    string fragmentShaderSource = getFragmentShaderSource();
-    gProgramPipeline = createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    try {
+        string vertexShaderSource = loadShaderasString("shaders/vertex.glsl");
+        string fragmentShaderSource = loadShaderasString("shaders/fragment.glsl");
+        gProgramPipeline = createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    } catch (...) {
+        string vertexShaderSource = getVertexShaderSource();
+        string fragmentShaderSource = getFragmentShaderSource();
+        gProgramPipeline = createShaderProgram(vertexShaderSource, fragmentShaderSource);
+    }
     
     if(gProgramPipeline == 0){
         cout << "Error creating shader program" << endl;
@@ -148,70 +164,117 @@ void getOpenGLVersionInfo(){
 
 void VertexSpecification() {
     const vector<GLfloat> vertexPositions {
-        -0.5f, -0.5f,  0.5f,  // Front face - vertex 0
-         0.5f, -0.5f,  0.5f,  // Front face - vertex 1
-         0.5f,  0.5f,  0.5f,  // Front face - vertex 2
-        -0.5f,  0.5f,  0.5f,  // Front face - vertex 3
-        -0.5f, -0.5f, -0.5f,  // Back face - vertex 4
-         0.5f, -0.5f, -0.5f,  // Back face - vertex 5
-         0.5f,  0.5f, -0.5f,  // Back face - vertex 6
-        -0.5f,  0.5f, -0.5f   // Back face - vertex 7
+        -0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f
     };
 
-    // More distinct colors for each vertex to better see the effect
     const vector<GLfloat> vertexColors {
-        1.0f, 0.0f, 0.0f,  // Red
-        0.0f, 1.0f, 0.0f,  // Green
-        0.0f, 0.0f, 1.0f,  // Blue
-        1.0f, 1.0f, 0.0f,  // Yellow
-        1.0f, 0.0f, 1.0f,  // Magenta
-        0.0f, 1.0f, 1.0f,  // Cyan
-        1.0f, 1.0f, 1.0f,  // White
-        0.5f, 0.5f, 0.5f   // Gray
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
     };
 
     const vector<GLuint> indices {
-        // Front face
         0, 1, 2, 2, 3, 0,
-        // Right face
         1, 5, 6, 6, 2, 1,
-        // Back face
         5, 4, 7, 7, 6, 5,
-        // Left face
         4, 0, 3, 3, 7, 4,
-        // Top face
         3, 2, 6, 6, 7, 3,
-        // Bottom face
         4, 5, 1, 1, 0, 4
+    };
+
+    const vector<GLfloat> textureCoords {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f
     };
 
     glGenVertexArrays(1, &gVAO);
     glBindVertexArray(gVAO);
 
-    // Position buffer
     glGenBuffers(1, &gVBO);
     glBindBuffer(GL_ARRAY_BUFFER, gVBO);
     glBufferData(GL_ARRAY_BUFFER, vertexPositions.size() * sizeof(GLfloat), vertexPositions.data(), GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-    // Color buffer
     glGenBuffers(1, &gVBOColor);
     glBindBuffer(GL_ARRAY_BUFFER, gVBOColor);
     glBufferData(GL_ARRAY_BUFFER, vertexColors.size() * sizeof(GLfloat), vertexColors.data(), GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-    // Index buffer
     GLuint EBO;
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
-    // Unbind VAO
+    glGenBuffers(1, &gVBOTexCoord);
+    glBindBuffer(GL_ARRAY_BUFFER, gVBOTexCoord);
+    glBufferData(GL_ARRAY_BUFFER, textureCoords.size() * sizeof(GLfloat), textureCoords.data(), GL_STATIC_DRAW);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
     glBindVertexArray(0);
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+}
+
+GLuint LoadTexture(const char* path) {
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+    
+    if (data) {
+        GLenum format;
+        if (nrChannels == 1)
+            format = GL_RED;
+        else if (nrChannels == 3)
+            format = GL_RGB;
+        else if (nrChannels == 4)
+            format = GL_RGBA;
+        else {
+            cerr << "Unsupported image format" << endl;
+            stbi_image_free(data);
+            return 0;
+        }
+        
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        
+        stbi_image_free(data);
+    } else {
+        cerr << "Failed to load texture: " << path << endl;
+        return 0;
+    }
+    
+    return textureID;
 }
 
 void InitializeProgram(){
@@ -249,6 +312,12 @@ void InitializeProgram(){
     glEnable(GL_DEPTH_TEST);
     
     getOpenGLVersionInfo();
+
+    gTexture = LoadTexture("texture.jpg");
+    if(gTexture == 0) {
+        cerr << "Failed to load texture" << endl;
+        exit(1);
+    }
 }
 
 void Input(){
@@ -271,6 +340,12 @@ void PreDraw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(gProgramPipeline);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, gTexture);
+    
+    GLint textureLoc = glGetUniformLocation(gProgramPipeline, "textureSampler");
+    glUniform1i(textureLoc, 0);
     
     float time = SDL_GetTicks() / 1000.0f;
     
@@ -313,7 +388,9 @@ void Cleanup(){
     glDeleteBuffers(1, &gVBO);
     glDeleteBuffers(1, &gVBOColor);
     glDeleteProgram(gProgramPipeline);
-
+    glDeleteTextures(1, &gTexture);
+    glDeleteBuffers(1, &gVBOTexCoord);
+    
     SDL_GL_DeleteContext(gOpenGLContext);
     SDL_DestroyWindow(gWindow);
     SDL_Quit();
