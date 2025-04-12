@@ -313,7 +313,7 @@ void InitializeProgram(){
     
     getOpenGLVersionInfo();
 
-    gTexture = LoadTexture("texture.jpg");
+    gTexture = LoadTexture("dirt_block.jpg");
     if(gTexture == 0) {
         cerr << "Failed to load texture" << endl;
         exit(1);
