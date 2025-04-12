@@ -197,10 +197,7 @@ void InitializeProgram() {
          SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4); // 4x multisampling
 
          // Create window with OpenGL support
-         gWindow = SDL_CreateWindow("OpenGL Rotating Cube", 
-                                                                                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-                                                                                gScreenWidth, gScreenHeight, 
-                                                                                SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+         gWindow = SDL_CreateWindow("OpenGL Rotating Cube", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,gScreenWidth, gScreenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
          
          if (!gWindow) {
                     fprintf(stderr, "Window creation failed: %s\n", SDL_GetError());
