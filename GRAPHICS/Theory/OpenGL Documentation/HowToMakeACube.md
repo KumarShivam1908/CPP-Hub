@@ -663,14 +663,14 @@ void Draw() {
 ### Transformation Matrix Explanation
 
 ```
-                                         Model Matrix                            View Matrix                    Projection Matrix
-                                     ┌───────────────┐                      ┌───────────────┐                ┌───────────────┐
-                                     │ Object → World│                      │ World → Camera│                │Camera → Screen│
-┌───────────┐      │    Space      │      ┌───────────┐   │    Space      │   ┌───────────┐│    Space      │   ┌───────────┐
-│  Object   │──────┤ - Position    │──────┤   World   │───┤ - Camera Pos  │───┤  Camera   │┤ - Perspective │───┤  Screen   │
-│ (Local)   │      │ - Rotation    │      │   Space   │   │ - Look Dir.   │   │   Space   ││ - FOV         │   │ Coordinates│
-│ Coordinates│      │ - Scale      │      │           │   │               │   │           ││ - Clipping    │   │           │
-└───────────┘      └───────────────┘      └───────────┘   └───────────────┘   └───────────┘└───────────────┘   └───────────┘
+                 Model Matrix                    View Matrix                 Projection Matrix
+┌─────────────┐  ┌───────────────┐  ┌─────────────┐  ┌───────────────┐  ┌─────────────┐  ┌───────────────┐  ┌─────────────┐
+│   Object    │  │  Object →     │  │    World    │  │  World →      │  │   Camera    │  │  Camera →     │  │   Screen    │
+│  (Local)    │──┤   World Space  ├──┤    Space    ├──┤  Camera Space ├──┤    Space    ├──┤  Screen Space ├──┤ Coordinates │
+│ Coordinates │  │ - Position    │  │             │  │ - Camera Pos  │  │             │  │ - Perspective │  │             │
+│             │  │ - Rotation    │  │             │  │ - Look Dir.   │  │             │  │ - FOV         │  │             │
+│             │  │ - Scale       │  │             │  │               │  │             │  │ - Clipping    │  │             │
+└─────────────┘  └───────────────┘  └─────────────┘  └───────────────┘  └─────────────┘  └───────────────┘  └─────────────┘
 ```
 
 ### Matrix Math Explanation
