@@ -351,6 +351,7 @@ void PreDraw() {
     
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, time, glm::vec3(0.5f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(sin(tan(time))));
     
     glm::mat4 view = glm::mat4(1.0f);
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
