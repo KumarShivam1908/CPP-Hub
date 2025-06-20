@@ -171,7 +171,7 @@ int main() {
 
 > **Tip:** Use block scope to limit the lifetime and visibility of variables, making your code easier to read and maintain.
 
-## Raw Arrays and `std::array`
+## 6.Raw Arrays and `std::array`
 
 Arrays in C++ are **homogeneous data structures**—all elements are of the same type and stored in contiguous memory locations. C++ supports both *raw arrays* (built-in) and *container arrays* like `std::array` (from the Standard Library).
 
@@ -241,7 +241,7 @@ int main() {
 
 > **Tip:** Prefer `std::array` over raw arrays for fixed-size collections in modern C++. It provides better safety and integrates well with the STL.
 
-## Loops in C++ and `std::fill`
+## 7. Loops in C++ and `std::fill`
 
 Loops are fundamental constructs in C++ that allow you to execute a block of code multiple times. Here’s a quick overview of the main types of loops and how to use them, along with the `std::fill` algorithm for initializing containers.
 
@@ -356,4 +356,120 @@ int main() {
 - **do-while loop:** Guarantees at least one execution of the loop body.
 - **`std::fill`:** Quickly sets all elements in a container to a specific value.
 
-> **Tip:** Prefer range-based for loops and algorithms like `std::fill` for safer and more readable code in modern C++.
+## 8. `continue` and `break` Statements
+
+Let's talk about two of the most dramatic ways to control your loops in C++: `continue` and `break`. These keywords let you either skip the rest of a loop iteration or storm out of the loop entirely—no questions asked!
+
+Here's the code in action:
+
+```cpp
+#include<iostream>
+int main(){
+    int arr[]={3,4,5,1,2,6,7,8,9,10};
+
+    for(int i=0;i<10;i=i+1){
+        std::cout<<"Starting loop iteration: " << arr[i] << std::endl;
+        continue; // This will skip the rest of the loop body and continue to the next iteration
+        std::cout<<"This line will never be executed." << std::endl;
+    }
+    for(int i=0;i<10;i=i+1){
+        std::cout<<"Starting loop iteration: " << arr[i] << std::endl;
+        break; // This will exit the loop immediately
+        std::cout<<"This line will never be executed." << std::endl;
+    }
+    return 0;
+}
+```
+
+### What's Happening Here?
+
+- **`continue`**:  
+  Think of `continue` as the "skip intro" button for your loop. As soon as it's hit, the loop jumps straight to the next iteration, ignoring anything that comes after it in the current cycle. That's why `"This line will never be executed."` is just wishful thinking—it never gets printed!
+
+- **`break`**:  
+  `break` is the "I'm outta here!" of loops. The moment it's encountered, the loop ends immediately, no matter how many iterations were left. Again, the line after `break` is just for show—it never runs.
+
+### Why Use Them?
+
+- Use `continue` when you want to skip certain cases in your loop but keep looping.
+- Use `break` when you want to stop looping as soon as a condition is met (or you just can't take it anymore).
+
+> **Pro Tip:**  
+> Overusing `continue` and `break` can make your code harder to follow—like a plot twist every few lines. Use them wisely for clarity and control, not just for dramatic effect!
+
+---
+
+## 9. Functions in C++
+
+Let's talk about functions—the reusable building blocks of your C++ programs! Functions let you organize code, avoid repetition, and give your logic a cool name. Here’s what you need to know, using your code as a guide:
+
+### Function Anatomy 101
+
+- **Function Signature:**  
+    This is the "ID card" of your function. It includes the return type, the function name, and the parameter list.  
+    Way 1: `int add(int a , int b)`
+    Way 2: `auto add(int a, int b) -> int;`  
+    (Yes, you can use the modern trailing return type syntax for extra style points!)
+
+- **Function Body:**  
+    This is where the magic happens—the actual implementation of what your function does.
+
+- **Arguments:**  
+    These are the values you pass into the function when you call it. The function uses these to do its job.
+
+- **Scoping Rules:**  
+    Variables declared inside a function stay inside that function. No sneaking out!
+
+- **Declaration Before Use:**  
+    C++ reads your code top to bottom. If you try to call a function before it knows about it, you'll get a "not declared" error.  
+    Solution: Declare the function signature at the top (a.k.a. a "forward declaration") so the compiler knows it exists, even if you define it later.
+
+- **Return Type:**  
+    If your function doesn't need to return anything, use `void`. Otherwise, specify the type you want to return.
+
+### Your Example Code
+
+```cpp
+#include<iostream>
+
+auto add(int a , int b) -> int;
+float add(float a, float b);
+
+void printMessage(void) {
+        std::cout << "Hello, this is a message from the functions file!" << std::endl;
+}
+
+int main(){
+        int a = 5, b = 10;
+        int result = add(a, b);
+        std::cout << "The sum of " << a << " and " << b << " is: " << result << std::endl;
+        std::cout << "The sum of 5.5 and 2.3 is: " << add(5.5f, 2.3f) << std::endl;  // f is needed or else it will something like function overloaded (double , double) as it willl not take 1.5 as float unless f is explicitly mentioned
+        printMessage();
+        return 0;
+}
+
+int add(int a, int b) {
+        return a + b;
+}
+float add(float a, float b) {
+        return a + b;
+}
+```
+
+### Key Concepts Illustrated
+
+- **Function Overloading:**  
+    You can have multiple functions with the same name but different parameter types. C++ will pick the right one based on the arguments you pass. (Just don’t try to confuse it too much!)
+
+- **Forward Declaration:**  
+    Notice how `auto add(int a, int b) -> int;` and `float add(float a, float b);` are declared before `main()`? That’s so you can call them in `main()` even though their bodies come later.
+
+- **Void Functions:**  
+    `printMessage(void)` doesn’t return anything—it just prints a message. Perfect for when you want to say something but don’t expect a reply.
+
+- **Type Suffixes:**  
+    When calling `add(5.5f, 2.3f)`, the `f` tells C++ these are floats, not doubles. Otherwise, C++ might get confused and call the wrong overload. (Floats and doubles are like siblings—similar, but not the same!)
+
+> **Remember:** Functions are your program’s way of saying, “I’ve got this—just tell me what you need, and I’ll handle the rest!”
+
+
