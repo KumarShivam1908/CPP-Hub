@@ -135,3 +135,39 @@ const float PI = 3.14f;
 ```
 
 The `const` keyword makes variables **immutable** and doesn't let the variable value change throughout the program. If someone tries to modify a const variable, it throws a compile-time error. The intuition behind using it is when you want to fix a value which you won't be changing throughout your code.
+
+## 5. C++ Block Scope
+
+Block scope in C++ refers to the region of code enclosed by curly braces `{}`. Variables declared inside a block are only accessible within that block and are destroyed when the block ends. This allows you to reuse variable names in different blocks without conflict.
+
+### Example: Block Scope and Variable Shadowing
+
+```cpp
+#include <iostream>
+
+int x = 0; // Global variable
+
+int main() {
+    {
+        int x = 5; // Local variable in this block, shadows global x
+        std::cout << "x in first inner scope: " << x << std::endl; // Outputs 5
+    }
+    {
+        int x = 10; // Another local variable, shadows global x
+        std::cout << "x in second inner scope: " << x << std::endl; // Outputs 10
+    }
+
+    std::cout << "x in global scope: " << x << std::endl; // Outputs 0 (global x)
+    return 0;
+}
+```
+
+### Key Points
+
+- **Block scope**: Any variable declared inside `{}` is only accessible within those braces.
+- **Variable shadowing**: A variable declared in an inner block with the same name as an outer variable "shadows" (hides) the outer variable within that block.
+- **Global variables**: Declared outside any function or block, accessible throughout the file unless shadowed by a local variable.
+- **Curly braces**: Used to define the boundaries of a block and thus the scope of variables.
+
+> **Tip:** Use block scope to limit the lifetime and visibility of variables, making your code easier to read and maintain.
+
