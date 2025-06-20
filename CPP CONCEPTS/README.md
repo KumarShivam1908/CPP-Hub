@@ -171,3 +171,189 @@ int main() {
 
 > **Tip:** Use block scope to limit the lifetime and visibility of variables, making your code easier to read and maintain.
 
+## Raw Arrays and `std::array`
+
+Arrays in C++ are **homogeneous data structures**—all elements are of the same type and stored in contiguous memory locations. C++ supports both *raw arrays* (built-in) and *container arrays* like `std::array` (from the Standard Library).
+
+### Key Concepts
+
+- **Zero-based indexing:** The first element is at index `0`.
+- **Fixed size:** The size of an array must be known at compile time and cannot be changed.
+- **Contiguous memory:** Elements are stored next to each other in memory, allowing fast access.
+
+### Raw Array Example
+
+```cpp
+#include <iostream>
+
+int main() {
+    int arr[5] = {1, 2, 3, 4, 5}; // Raw array of 5 integers
+
+    for (int i = 0; i < 5; ++i) {
+        std::cout << arr[i] << " ";
+    }
+    // Output: 1 2 3 4 5
+    return 0;
+}
+```
+
+- **Drawbacks:** No built-in bounds checking. Accessing `arr[5]` (out of bounds) is undefined behavior.
+
+---
+
+### `std::array` (C++11 and later)
+
+`std::array` is a safer, more modern alternative to raw arrays. It is a fixed-size container that provides:
+- Bounds-checked access with `.at()`
+- Standard library compatibility (algorithms, iterators)
+- Size information via `.size()`
+
+#### Example: Using `std::array`
+
+```cpp
+#include <iostream>
+#include <array>
+#include <numeric>   // For std::iota
+#include <iterator>  // For std::begin, std::end
+
+int main() {
+    std::array<int, 100> arr; // Fixed-size array of 100 integers
+
+    // Fill the array with values 1 to 100
+    std::iota(arr.begin(), arr.end(), 1);
+
+    arr.at(99) = 9; // Safely set the last element to 9
+
+    for (size_t i = 0; i < arr.size(); ++i) {
+        std::cout << arr[i] << " ";
+    }
+    // Output: 1 2 3 ... 98 99 9
+    return 0;
+}
+```
+
+#### Notes:
+- `std::iota` fills the array with sequential values.
+- `.at(index)` throws an exception if `index` is out of bounds, making it safer than `arr[index]`.
+- If you access an element outside the array bounds (e.g., `arr.at(100)`), you'll get a runtime error instead of undefined behavior.
+
+---
+
+> **Tip:** Prefer `std::array` over raw arrays for fixed-size collections in modern C++. It provides better safety and integrates well with the STL.
+
+## Loops in C++ and `std::fill`
+
+Loops are fundamental constructs in C++ that allow you to execute a block of code multiple times. Here’s a quick overview of the main types of loops and how to use them, along with the `std::fill` algorithm for initializing containers.
+
+### 1. `for` Loop
+
+- **Purpose:** Repeats a block of code a specific number of times.
+- **How it works:** Initializes a variable, checks a condition before each iteration, and updates the variable after each iteration.
+
+```cpp
+for (int i = 0; i < 5; ++i) {
+    // Code to execute
+}
+```
+
+### 2. Range-Based `for` Loop
+
+- **Purpose:** Iterates directly over elements in a container (like arrays or vectors).
+- **Benefits:** More readable and less error-prone than traditional `for` loops.
+- **Tip:** Use `auto` or `auto&` to avoid unnecessary copying and detecting the type itself.
+
+```cpp
+for (int element : arr) {
+    // Use element
+}
+```
+
+### 3. `while` Loop
+
+- **Purpose:** Repeats a block of code as long as a condition is true.
+- **How it works:** Checks the condition before each iteration.
+
+```cpp
+while (condition) {
+    // Code to execute
+}
+```
+
+### 4. `do-while` Loop
+
+- **Purpose:** Similar to `while`, but always executes the block at least once.
+- **How it works:** Checks the condition after each iteration.
+
+```cpp
+do {
+    // Code to execute
+} while (condition);
+```
+
+---
+
+## Example: Using Different Loops and `std::fill`
+
+```cpp
+#include <iostream>
+#include <array>
+#include <algorithm> // For std::fill
+
+int main() {
+    std::array<int, 5> arr{1, 2, 3, 4, 5};
+
+    // 1. for loop
+    std::cout << "For loop: ";
+    for (size_t i = 0; i < arr.size(); ++i) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // 2. Range-based for loop
+    std::cout << "Range-based for loop: ";
+    for (int element : arr) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+
+    // 3. while loop
+    int counter = 3;
+    std::cout << "While loop: ";
+    while (counter > 0) {
+        std::cout << counter << " ";
+        --counter;
+    }
+    std::cout << std::endl;
+
+    // 4. do-while loop
+    counter = 3;
+    std::cout << "Do-while loop: ";
+    do {
+        std::cout << counter << " ";
+        --counter;
+    } while (counter > 0);
+    std::cout << std::endl;
+
+    // 5. Using std::fill
+    std::cout << "Using std::fill: ";
+    std::fill(arr.begin(), arr.end(), 0); // Sets all elements to 0
+    for (int element : arr) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+---
+
+### Key Points
+
+- **for loop:** Good for counting or iterating by index.
+- **Range-based for loop:** Best for iterating over all elements in a container.
+- **while loop:** Use when the number of iterations isn’t known in advance.
+- **do-while loop:** Guarantees at least one execution of the loop body.
+- **`std::fill`:** Quickly sets all elements in a container to a specific value.
+
+> **Tip:** Prefer range-based for loops and algorithms like `std::fill` for safer and more readable code in modern C++.
