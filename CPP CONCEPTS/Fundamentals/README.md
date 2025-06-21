@@ -875,3 +875,66 @@ Each is typically **8 bytes** on a 64-bit system → **8 × 3 = 24 bytes**
 
 ---
 
+Great! Here's the addition for **Raw Pointers**, structured to match your notes format:
+
+---
+
+## 🔢 **Pointer Types in C++**
+
+
+#### 🧷 **1. Raw Pointers**
+
+```cpp
+#include<iostream>
+int main(){
+    int a = 10;
+    std::cout<<"Address of a is: " << &a << std::endl;
+
+    int* px = &a; // raw pointer pointing to a
+    std::cout<<"Address stored in px: " << px << std::endl;  // should be same as &a
+    std::cout<<"Value pointed by px: " << *px << std::endl;  // should print 10
+
+    return 0;
+}
+```
+
+> **Raw pointers** are basic pointers in C++ that store the **memory address** of a variable. They are powerful but dangerous — you are responsible for manually managing memory (allocating with `new` and freeing with `delete`). If misused (like forgetting to `delete` or accessing freed memory), they can cause serious bugs such as **memory leaks** or **undefined behavior**. Unlike smart pointers, they do not enforce ownership rules.
+
+Perfect! Here’s a neat and structured note for your topic:
+
+---
+
+
+#### 🔐 **2. `std::unique_ptr`**
+
+```cpp
+#include<iostream>
+#include<memory>
+
+class UDT{
+    public:
+        UDT(){
+            std::cout<<"UDT created"<<std::endl;
+        }
+        ~UDT(){
+            std::cout<<"UDT destroyed"<<std::endl;
+        }
+};
+
+int main(){
+    // creating a pointer to a user-defined type (UDT)
+    std::unique_ptr<UDT> shivam = std::unique_ptr<UDT>(new UDT);
+    // std::unique_ptr<UDT> joe = shivam; // This will cause a compilation error because unique_ptr cannot be copied
+    // but we can transfer ownership using std::move
+    std::unique_ptr<UDT> joe = std::move(shivam); // Now joe owns the UDT object
+    // creating  a array that is pointer by a unique pointer
+    // std::unique_ptr<UDT[]> shivamArray = std::make_unique<UDT[]>(5);
+
+    return 0;   
+}
+```
+
+> `std::unique_ptr` is a **smart pointer** that ensures **exclusive ownership** of a dynamically allocated object. You cannot copy it, only **move** it using `std::move()`. This guarantees that only one pointer can manage a resource at any time. It automatically calls `delete` when it goes out of scope, making memory management **safe and efficient**, without any manual cleanup.
+
+
+
