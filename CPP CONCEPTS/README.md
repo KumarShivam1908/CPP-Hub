@@ -62,7 +62,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 
 ## 3. Fundamental Types in CPP
 
-### **1. Integral Types**
+#### **1. Integral Types**
 
 | Type Specifier           | Equivalent Type          | Minimum Width (bits) | Signedness | Description |
 |--------------------------|-------------------------|----------------------|------------|-------------|
@@ -77,7 +77,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 | `signed char`           | `signed char`           | 8                    | Signed     | Smallest signed integer type. |
 | `unsigned char`         | `unsigned char`         | 8                    | Unsigned   | Smallest unsigned integer type. |
 
-### **2. Extended Integer Types** (Implementation-Defined)
+#### **2. Extended Integer Types** (Implementation-Defined)
 
 | Type            | Description |
 |----------------|-------------|
@@ -86,7 +86,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 
 ---
 
-### **3. Character Types**
+#### **3. Character Types**
 
 | Type Specifier    | Equivalent Type           | Description |
 |-------------------|--------------------------|-------------|
@@ -98,13 +98,13 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 | `char32_t`       | `std::uint_least32_t`      | UTF-32 character representation. (C++11) |
 | `char8_t`        | `unsigned char`            | UTF-8 character representation. (C++20) |
 
-### **Character Type Properties**
+#### **Character Type Properties**
 - `sizeof(char) ≤ sizeof(short) ≤ sizeof(int) ≤ sizeof(long) ≤ sizeof(long long)`.
 - `wchar_t`, `char16_t`, and `char32_t` are distinct types but have same size, alignment, and signedness as corresponding integer types.
 
 ---
 
-### **4. Floating-Point Types**
+#### **4. Floating-Point Types**
 
 | Type Specifier    | Precision | Format (Typical) | Description |
 |------------------|----------|----------------|-------------|
@@ -112,7 +112,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 | `double`        | Double   | IEEE-754 binary64 | Double precision, 64-bit floating point. |
 | `long double`   | Extended | IEEE-754 binary128 / x87 80-bit | Extended precision (varies by implementation). |
 
-### **Floating-Point Type Properties**
+#### **Floating-Point Type Properties**
 
 | Special Values | Description |
 |---------------|-------------|
@@ -121,7 +121,7 @@ __Did you really think I would just type out cout << "Hello, World!"; like some 
 | `NaN`         | Not-a-number, does not compare equal to anything. |
 | `std::nan`    | Quiet NaN value. |
 
-### **Floating-Point Operations**
+#### **Floating-Point Operations**
 - Support arithmetic operations (`+`, `-`, `*`, `/`) and functions from `<cmath>`.
 - May raise floating-point exceptions and set `errno`.
 - Expressions can have extended precision (`FLT_EVAL_METHOD`).
