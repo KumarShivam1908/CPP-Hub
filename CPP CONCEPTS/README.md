@@ -618,3 +618,101 @@ Meanwhile, the real `x` in `main()`? Still 10. Still in the same chair. Still si
 
 > C++ uses pass-by-value by default.
 
+Here’s a fun, clear, and memorable explanation of **Pass by Reference in C++**, using your code and example — let’s make sure it clicks and sticks in your brain like a pointer on a mission 😄
+
+---
+
+## 💥 **12. Pass By Reference in C++**
+
+> **“No clones. Just the real deal.”**
+
+---
+
+####  TL;DR:
+
+Unlike pass-by-value where you give your function a **clone**, with **pass-by-reference**, you hand over the **original variable itself**. That means:
+
+* The function can **mutate** the original.
+* No duplication = **efficient**.
+* Changes made? They **stick**. Like glue.
+
+
+#### __Code__ :
+
+```cpp
+#include<iostream>
+
+void getval(int &arg){  // & means “reference”
+    std::cout<<"getval\targ = "<<arg<<std::endl;
+    std::cout<<"getval\tAddress of arg = "<<&arg<<std::endl;
+
+    arg = 20;  // Changing the real deal
+
+    std::cout<<"getval\targ = "<<arg<<std::endl;
+    std::cout<<"getval\tAddress of arg = "<<&arg<<std::endl;
+}
+
+int main(){
+    int a = 10;
+    std::cout<<"a = "<<a<<std::endl;
+    std::cout<<"Address of a = "<<&a<<std::endl;
+
+    getval(a);  // Sending a with full trust
+
+    std::cout<<"a = "<<a<<std::endl;
+    std::cout<<"Address of a = "<<&a<<std::endl;
+
+    return 0;
+}
+```
+
+---
+
+#### __Output__:
+
+```
+a = 10
+Address of a = 0x7ffd4a8b5b44
+
+getval  arg = 10
+getval  Address of arg = 0x7ffd4a8b5b44
+getval  arg = 20
+getval  Address of arg = 0x7ffd4a8b5b44
+
+a = 20
+Address of a = 0x7ffd4a8b5b44
+
+```
+
+
+#### __Concept__:
+
+In **pass-by-reference**, no fancy clone enters the scene.
+
+This time, `arg` is just a **nickname** for `a`. Wherever `arg` goes, `a` goes. They live at the same address. So when `arg` gets updated to `20`, it’s basically like you updated `a` while looking it straight in the eyes 👀.
+
+No hiding. No copies.
+This is the **raw, unfiltered, in-place edit.**
+
+### __Comparison__
+ 
+#### ** What `time ./prog` Does**  
+When you run `time ./prog`, it executes your program (`prog`) and measures:  
+- **Real Time (real)**: Total wall-clock time taken.  
+- **User Time (user)**: CPU time spent in your program.  
+- **Sys Time (sys)**: CPU time spent in kernel (system calls).  
+
+#### ** Observations as Array Size Increases**  
+| **Array Size**   | **Real Time (Pass-by-Ref)** | **Real Time (Pass-by-Val)** |  
+|----------------|--------------------------|--------------------------|  
+| 100            | ~0.005s                 | ~0.005s (negligible)     |  
+| 10,000         | ~0.006s                 | ~0.006s (still tiny)     |  
+| 100,000,000    | **0.550s**              | **0.718s** (slower!)     |  
+
+- **Small arrays (100, 10k)**: No noticeable difference (copying is cheap).  
+- **Huge array (100M)**: Pass-by-value becomes **significantly slower** due to memory copy.  
+
+#### ** Why Pass-by-Reference is Faster?**  
+- **Pass-by-Value** → Makes a full copy (100M ints = **400MB+** allocated & copied).  
+- **Pass-by-Reference** → Just passes a pointer (**8 bytes**), no copying.  
+
