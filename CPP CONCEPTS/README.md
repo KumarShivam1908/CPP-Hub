@@ -472,4 +472,69 @@ float add(float a, float b) {
 
 > **Remember:** Functions are your program’s way of saying, “I’ve got this—just tell me what you need, and I’ll handle the rest!”
 
+Here’s a properly formatted and improved markdown version of your explanation and code for **"10. Address-of Operator `&` in C++"**:
 
+---
+
+## 10. Address-of Operator `&`
+
+Ever wondered where your variables actually live in your computer’s memory? Meet the **address-of operator `&`** — your backstage pass to the memory addresses of your variables!
+
+
+### 🔍 What Does `&` Do?
+
+The `&` operator gives you the **address (location in memory)** of a variable.
+Think of it like asking:
+
+> “Hey, where does this variable live in RAM?”
+
+---
+
+#### 🧪 Example Code
+
+```cpp
+#include <iostream>
+int main() {
+    int a = 10;             // int = 4 bytes
+    float b = 20.5;         // float = 4 bytes
+    char c = 'A';           // char = 1 byte
+    double d = 30.5;        // double = 8 bytes
+    signed char e = 'B';    // signed char = 1 byte
+    unsigned char f = 'C';  // unsigned char = 1 byte
+
+    std::cout << "Address of a: " << &a << std::endl;
+    std::cout << "Address of b: " << &b << std::endl;
+    std::cout << "Address of c: " << (void*)&c << std::endl; // Cast to void* to print actual address
+    std::cout << "Address of d: " << &d << std::endl;
+    std::cout << "Address of signed char e: " << (void*)&e << std::endl;
+    std::cout << "Address of unsigned char f: " << (void*)&f << std::endl;
+
+    return 0;
+}
+```
+
+#### 🧾 Sample Output
+
+```
+Address of a: 0x7fff92dc25a8
+Address of b: 0x7fff92dc25ac
+Address of c: 0x7fff92dc25a5
+Address of d: 0x7fff92dc25b0
+Address of signed char e: 0x7fff92dc25a6
+Address of unsigned char f: 0x7fff92dc25a7
+```
+
+#### ❗ Why Did We Cast to `void*`?
+
+If you try to print the address of a `char`, `signed char`, or `unsigned char` **without casting**, C++ will assume it's a pointer to a C-style string and will try to print characters until it hits a null terminator (`\0`), leading to **strange outputs** like:
+
+```
+Address of c: ABC
+Address of signed char e: BC
+Address of unsigned char f: C
+
+```
+
+To avoid this and print the **actual address**, we cast to `void*`.
+
+---
