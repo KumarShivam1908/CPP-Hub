@@ -622,7 +622,7 @@ Here’s a fun, clear, and memorable explanation of **Pass by Reference in C++**
 
 ---
 
-## 💥 **12. Pass By Reference in C++**
+##  **12. Pass By Reference in C++**
 
 > **“No clones. Just the real deal.”**
 
@@ -694,7 +694,7 @@ This time, `arg` is just a **nickname** for `a`. Wherever `arg` goes, `a` goes. 
 No hiding. No copies.
 This is the **raw, unfiltered, in-place edit.**
 
-### __Comparison__
+## 13. __Comparison__
  
 #### ** What `time ./prog` Does**  
 When you run `time ./prog`, it executes your program (`prog`) and measures:  
