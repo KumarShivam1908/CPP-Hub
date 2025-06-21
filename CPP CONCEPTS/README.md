@@ -637,7 +637,7 @@ Unlike pass-by-value where you give your function a **clone**, with **pass-by-re
 * Changes made? They **stick**. Like glue.
 
 
-#### __Code__ :
+#### __Check The Code__ 
 
 ```cpp
 #include<iostream>
@@ -668,7 +668,7 @@ int main(){
 
 ---
 
-#### __Output__:
+#### __Output__
 
 ```
 a = 10
@@ -685,7 +685,7 @@ Address of a = 0x7ffd4a8b5b44
 ```
 
 
-#### __Concept__:
+#### __Main Concept__
 
 In **pass-by-reference**, no fancy clone enters the scene.
 
@@ -696,13 +696,13 @@ This is the **raw, unfiltered, in-place edit.**
 
 ## 13. __Comparison__
  
-#### ** What `time ./prog` Does**  
+#### **What `time ./prog` Does**  
 When you run `time ./prog`, it executes your program (`prog`) and measures:  
 - **Real Time (real)**: Total wall-clock time taken.  
 - **User Time (user)**: CPU time spent in your program.  
 - **Sys Time (sys)**: CPU time spent in kernel (system calls).  
 
-#### ** Observations as Array Size Increases**  
+#### **Observations as Array Size Increases**  
 | **Array Size**   | **Real Time (Pass-by-Ref)** | **Real Time (Pass-by-Val)** |  
 |----------------|--------------------------|--------------------------|  
 | 100            | ~0.005s                 | ~0.005s (negligible)     |  
@@ -712,7 +712,7 @@ When you run `time ./prog`, it executes your program (`prog`) and measures:
 - **Small arrays (100, 10k)**: No noticeable difference (copying is cheap).  
 - **Huge array (100M)**: Pass-by-value becomes **significantly slower** due to memory copy.  
 
-#### ** Why Pass-by-Reference is Faster?**  
+#### **Why Pass-by-Reference is Faster?**  
 - **Pass-by-Value** → Makes a full copy (100M ints = **400MB+** allocated & copied).  
 - **Pass-by-Reference** → Just passes a pointer (**8 bytes**), no copying.  
 
