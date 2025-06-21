@@ -1,4 +1,9 @@
 #include<iostream>
+
+void print(){
+    std::cout<<"Hello "<<std::endl;
+}
+
 int main(){
     int a = 10; //  int = 4 bytes
     float b = 20.5; // float = 4 bytes
@@ -13,6 +18,6 @@ int main(){
     std::cout << "Address of d: " << &d << std::endl;   
     std::cout << "Address of signed char e: " << (void *)&e << std::endl; // Cast to void* for signed char
     std::cout << "Address of unsigned char f: " << (void *)&f << std::endl; // Cast to void* for unsigned char
-
+    std::cout << "Address of print function: " << (void *)&main << std::endl; // Cast to void* for function address
     return 0;
 }

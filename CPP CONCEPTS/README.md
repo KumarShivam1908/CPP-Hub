@@ -490,25 +490,30 @@ Think of it like asking:
 
 ---
 
-#### 🧪 Example Code
+####  Example Code
 
 ```cpp
-#include <iostream>
-int main() {
-    int a = 10;             // int = 4 bytes
-    float b = 20.5;         // float = 4 bytes
-    char c = 'A';           // char = 1 byte
-    double d = 30.5;        // double = 8 bytes
-    signed char e = 'B';    // signed char = 1 byte
-    unsigned char f = 'C';  // unsigned char = 1 byte
+#include<iostream>
+
+void print(){
+    std::cout<<"Hello "<<std::endl;
+}
+
+int main(){
+    int a = 10; //  int = 4 bytes
+    float b = 20.5; // float = 4 bytes
+    char c = 'A'; // char = 1 byte
+    double d = 30.5; // double = 8 bytes
+    signed char e = 'B'; // signed char = 1 byte
+    unsigned char f = 'C'; // unsigned char = 1 byte
 
     std::cout << "Address of a: " << &a << std::endl;
-    std::cout << "Address of b: " << &b << std::endl;
-    std::cout << "Address of c: " << (void*)&c << std::endl; // Cast to void* to print actual address
-    std::cout << "Address of d: " << &d << std::endl;
-    std::cout << "Address of signed char e: " << (void*)&e << std::endl;
-    std::cout << "Address of unsigned char f: " << (void*)&f << std::endl;
-
+    std::cout << "Address of b: " << &b << std::endl;   
+    std::cout << "Address of c: " << (void*)&c << std::endl; // Cast to void* for char
+    std::cout << "Address of d: " << &d << std::endl;   
+    std::cout << "Address of signed char e: " << (void *)&e << std::endl; // Cast to void* for signed char
+    std::cout << "Address of unsigned char f: " << (void *)&f << std::endl; // Cast to void* for unsigned char
+    std::cout << "Address of print function: " << (void*)print << std::endl; // Cast to void* for function address or else it will return as 1.
     return 0;
 }
 ```
@@ -516,12 +521,13 @@ int main() {
 #### 🧾 Sample Output
 
 ```
-Address of a: 0x7fff92dc25a8
-Address of b: 0x7fff92dc25ac
-Address of c: 0x7fff92dc25a5
-Address of d: 0x7fff92dc25b0
-Address of signed char e: 0x7fff92dc25a6
-Address of unsigned char f: 0x7fff92dc25a7
+Address of a: 0x7fffe17649d8
+Address of b: 0x7fffe17649dc
+Address of c: 0x7fffe17649d5
+Address of d: 0x7fffe17649e0
+Address of signed char e: 0x7fffe17649d6
+Address of unsigned char f: 0x7fffe17649d7
+Address of print function: 0x562d815491a9
 ```
 
 #### ❗ Why Did We Cast to `void*`?
@@ -538,3 +544,77 @@ Address of unsigned char f: C
 To avoid this and print the **actual address**, we cast to `void*`.
 
 ---
+
+Absolutely! Here's a fun, improved, and crystal-clear version of your explanation — perfect for understanding and remembering the concept of **pass-by-value** in C++:
+
+---
+
+## 11. **Pass-by-Value in C++**
+
+> In C++, when you call a function and pass an argument — like an `int` — you're *not* handing over your actual variable.
+> Nope. You're giving the function a **clone**. A perfectly obedient little copy of your variable that lives in a **temporary private suite** inside the **function’s memory (stack frame)**.
+It’s like your variable got a stunt double.
+Whatever drama happens inside that room?
+**Stays in that room.**
+
+
+####  **Code**:
+
+```cpp
+#include<iostream>
+
+void getval(int arg){
+    std::cout<<"getval\targ = "<<arg<<std::endl;
+    std::cout<<"getval\tAddress of arg = "<<&arg<<std::endl;
+
+    arg = 20;  // drama inside the bubble
+
+    std::cout<<"getval\targ = "<<arg<<std::endl;
+    std::cout<<"getval\tAddress of arg = "<<&arg<<std::endl;
+}
+
+int main(){
+    int a = 10;
+    std::cout<<"a = "<<a<<std::endl;
+    std::cout<<"Address of a = "<<&a<<std::endl;
+
+    getval(a);  // send in the stunt double
+
+    std::cout<<"a = "<<a<<std::endl;
+    std::cout<<"Address of a = "<<&a<<std::endl;
+
+    return 0;
+}
+```
+
+####  **Output**:
+
+```
+a = 10
+Address of a = 0x7ffcbd5f0a54   // Main room
+
+getval  arg = 10
+getval  Address of arg = 0x7ffcbd5f0a3c  // New temp room
+getval  arg = 20                        // Drama: arg thinks he's 20 now
+getval  Address of arg = 0x7ffcbd5f0a3c  // Still in the bubble
+
+a = 10
+Address of a = 0x7ffcbd5f0a54   // Back to reality, untouched and chillin'
+```
+
+---
+
+####  **Concept** :
+
+Imagine your variable `x = 10` is chilling in a cozy chair inside your main function — let's call it the **Main Room**.
+
+Now, when you call `getval(x)`, you’re not tossing `x` out of the room. Instead, you're sending in a **lookalike**, a **clone** of `x`, into a **new private function room**.
+
+Inside `getval`, this clone (named `arg`) goes wild and changes its value to 20. “I’m 20 now!” it proudly shouts.
+
+But here’s the catch — that clone is living in a **different memory address**. The moment the function ends, its room gets cleaned out. Clone gone. Drama gone. Back to peace.
+
+Meanwhile, the real `x` in `main()`? Still 10. Still in the same chair. Still sipping coffee like nothing ever happened. ☕
+
+> C++ uses pass-by-value by default.
+
