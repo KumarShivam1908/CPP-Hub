@@ -136,6 +136,8 @@ const float PI = 3.14f;
 
 The `const` keyword makes variables **immutable** and doesn't let the variable value change throughout the program. If someone tries to modify a const variable, it throws a compile-time error. The intuition behind using it is when you want to fix a value which you won't be changing throughout your code.
 
+>When we pass a const vector by reference to a function, it ensures that the vector's data cannot be modified within the function. This is a key use of const—it allows safe and efficient access to data without risking unintended changes.
+
 ## 5. C++ Block Scope
 
 Block scope in C++ refers to the region of code enclosed by curly braces `{}`. Variables declared inside a block are only accessible within that block and are destroyed when the block ends. This allows you to reuse variable names in different blocks without conflict.
