@@ -292,7 +292,7 @@ do {
 
 ---
 
-## Example: Using Different Loops and `std::fill`
+### Example: Using Different Loops and `std::fill`
 
 ```cpp
 #include <iostream>
