@@ -936,5 +936,105 @@ int main(){
 
 > `std::unique_ptr` is a **smart pointer** that ensures **exclusive ownership** of a dynamically allocated object. You cannot copy it, only **move** it using `std::move()`. This guarantees that only one pointer can manage a resource at any time. It automatically calls `delete` when it goes out of scope, making memory management **safe and efficient**, without any manual cleanup.
 
+Absolutely! Here's the neatly structured and well-explained note for **`std::shared_ptr`**, matching the format you've been using for your **Pointer Types** notes:
+
+---
+
+
+#### 🤝 **3. `std::shared_ptr`**
+
+```cpp
+#include<iostream>
+#include<memory>
+
+class UDT{
+    public:
+        UDT(){
+            std::cout<<"UDT created"<<std::endl;
+        }
+        ~UDT(){
+            std::cout<<"UDT destroyed"<<std::endl;
+        }
+};
+
+int main(){
+    // creating a shared pointer to a user-defined type (UDT)
+    std::shared_ptr<UDT> shivam = std::make_shared<UDT>();
+
+    // creating another shared pointer that shares ownership of the same UDT object
+    // then we create a new scope to demonstrate reference counting
+    {
+        // then in new scope shivam will share its resource with joe
+        std::shared_ptr<UDT> joe = shivam; // Now both shivam and joe own the UDT object
+        // reference count gets updated
+        std::cout << "Reference count inside scope : " << shivam.use_count() << std::endl;
+        // joe goes out of scope here, so the reference count will decrease
+    }
+
+    // Displaying the reference count
+    std::cout << "Reference count: " << shivam.use_count() << std::endl;
+
+    return 0;
+}
+```
+
+> `std::shared_ptr` is a smart pointer that allows **multiple owners** to share responsibility for a dynamically allocated object. Internally, it maintains a **reference count** using `use_count()` — when this count reaches zero (i.e., all owners are destroyed or reset), the object is automatically deleted. It's useful when ownership needs to be **shared across scopes or components**, but be cautious of **circular references**, which can prevent proper cleanup.
+
+
+Absolutely! Let’s first clearly explain what a `std::weak_ptr` is, before jumping into real-world uses:
+
+---
+
+#### 👻 **4. `std::weak_ptr` — The Non-Owning Smart Pointer**
+
+```cpp
+#include<iostream>
+#include<memory>
+
+class UDT {
+public:
+    UDT() { std::cout << "UDT created" << std::endl; }
+    ~UDT() { std::cout << "UDT destroyed" << std::endl; }
+};
+
+int main() {
+    std::shared_ptr<UDT> shivam = std::make_shared<UDT>();
+
+    {
+        std::weak_ptr<UDT> joe = shivam;  // weak_ptr does NOT increase reference count
+        std::cout << "Reference count inside scope: " << shivam.use_count() << std::endl;
+    }
+
+    std::cout << "Reference count after scope: " << shivam.use_count() << std::endl;
+    return 0;
+}
+```
+
+##### **What is `std::weak_ptr`?**
+
+* `std::weak_ptr` is a **smart pointer** that holds a **non-owning reference** to an object managed by `std::shared_ptr`.
+* It **does not** increase the reference count (`use_count()`), which means:
+
+  * It won't prevent the object from being deleted.
+  * It's **safe** to observe shared data **without owning it**.
+
+
+
+#####  **Why use `weak_ptr`?**
+
+If you only want to **observe** or **check** if an object still exists — but don’t want to keep it alive — use `weak_ptr`.
+
+You can convert a `weak_ptr` to a `shared_ptr` using `.lock()` to safely access the object:
+
+```cpp
+if (auto sp = joe.lock()) {
+    // safe to use sp here
+}
+```
+
+This avoids **dangling pointers** or **crashes** from using deleted memory.
+
+
+
 
 
