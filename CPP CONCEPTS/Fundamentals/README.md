@@ -812,3 +812,66 @@ That means `arr[i] == *(arr + i)` and `i[arr] == *(i + arr)` (weird but valid!).
 
 This is why pointers and arrays are closely related in C++ — especially in how they interact with memory!
 
+Absolutely! Let's include `std::vector` in the explanation and clarify why `sizeof` gives **24 bytes** in that case:
+
+---
+
+## 17. **Sizeof Ambiguity in C++**
+
+The `sizeof` operator gives the **size in bytes** of a variable **at compile time** — but this can be misleading, especially with pointers and dynamic structures.
+
+---
+
+#### Code Example:
+
+```cpp
+#include<iostream>
+#include<vector>
+int main() {
+    int x = 10;
+    int* px = &x;
+    int arr[5] = {10, 20, 30, 40, 50};       // Static array (stack memory)
+    int* darr = new int[5];                  // Dynamic array (heap memory)
+    std::vector<int> v = {1, 2, 3, 4, 5};    // Vector
+
+    std::cout << "Size of int: "   << sizeof(int) << " bytes\n";
+    std::cout << "Size of x: "     << sizeof(x) << " bytes\n";
+    std::cout << "Size of px: "    << sizeof(px) << " bytes\n";
+    std::cout << "Size of arr: "   << sizeof(arr) << " bytes\n";
+    std::cout << "Size of darr: "  << sizeof(darr) << " bytes\n";
+    std::cout << "Size of vector: "<< sizeof(v) << " bytes\n";
+
+    delete[] darr;
+    return 0;
+}
+```
+
+---
+
+####  Output Explanation (on 64-bit system):
+
+```
+Size of int:     4 bytes
+Size of x:       4 bytes
+Size of px:      8 bytes          // pointer size
+Size of arr:    20 bytes          // 5 * sizeof(int)
+Size of darr:    8 bytes          // still just a pointer
+Size of vector: 24 bytes          // not the actual elements!
+```
+
+---
+
+#### 🧠 Why `sizeof(vector)` gives 24 bytes?
+
+Because a `std::vector<int>` contains:
+
+* A pointer to the dynamic memory (`int*`)
+* The size of the vector (`size_t`)
+* The capacity of the vector (`size_t`)
+
+Each is typically **8 bytes** on a 64-bit system → **8 × 3 = 24 bytes**
+
+🛑 It does **not** include the memory for the elements themselves (those are on the heap).
+
+---
+
