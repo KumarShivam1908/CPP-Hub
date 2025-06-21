@@ -718,3 +718,97 @@ When you run `time ./prog`, it executes your program (`prog`) and measures:
 - **Pass-by-Value** → Makes a full copy (100M ints = **400MB+** allocated & copied).  
 - **Pass-by-Reference** → Just passes a pointer (**8 bytes**), no copying.  
 
+## 14. __Pointers__
+
+Pointers in C++ are variables that store the memory address of another variable. Instead of working directly with values, pointers let you work with locations in memory. This is incredibly useful when you want to share or modify data efficiently, without copying it around — especially in large programs, with functions, arrays, or dynamic memory.
+
+```cpp
+#include<iostream>
+int main(){
+
+    int a = 10;
+    std::cout<<"Address of a is " << &a <<std::endl;
+
+    int * px = &a; 
+    std::cout<<"Address of px is " << px <<std::endl;  // should point to the same address as a
+
+    // Dereferencing the pointer to get the value
+    std::cout<<"Value of a is " << *px <<std::endl; // should print 10
+
+    return 0;
+}
+
+```
+```
+Address of a is 0x7fffc636813c
+Address of px is 0x7fffc636813c
+Value of a is 10
+
+```
+In the code , int* px = &a; creates a pointer px that stores the address of a. When you dereference it using *px, it gives you access to the actual value stored at that address — which is 10. This demonstrates how pointers let you indirectly access and manipulate variables, a key feature for low-level memory control in C++ .
+
+---
+
+Here’s a clear and concise explanation of **Dynamic Memory Allocation** in C++ using your example:
+
+---
+
+## 🚀 15. **Dynamic Memory Allocation in C++**
+
+Dynamic memory allocation lets you request memory **at runtime**, especially useful when you don’t know in advance how much memory you’ll need (like getting user input).
+
+When you do:
+
+```cpp
+int* id = new int[num_people];
+```
+
+You're telling the system:
+
+> "Hey, give me space on the **heap** for `num_people` integers."
+> This memory doesn't go away on its own — so you must **manually clean it up** using:
+
+```cpp
+delete[] id;
+```
+
+> This frees the allocated space and prevents **memory leaks**.
+
+####  Why Use It?
+
+* **Heap memory** survives beyond function scope (unlike stack).
+* Needed for **dynamic data structures** (arrays, linked lists, trees, etc.).
+* Gives you control over **when** and **how much** memory you allocate.
+
+Here’s a crisp and clear note for your topic — easy to revise and understand:
+
+---
+
+## 16. **Pointer Arithmetic, Array Offsets, and Bracket Dereferencing**
+
+In C++, pointers can be used to traverse arrays by performing **pointer arithmetic**. When you write `ptr++`, the pointer moves to the **next element**, not just the next byte. This is because pointer arithmetic is **type-aware** — it adds `sizeof(type)` to the current address.
+
+For example:
+
+```cpp
+int* ptr = arr; // points to arr[0]
+ptr++;          // now points to arr[1], i.e., 4 bytes ahead if int = 4 bytes
+```
+
+You can also access elements using **offsets**:
+
+```cpp
+*(ptr + 1); // Same as ptr[1]
+```
+
+Or even go backwards:
+
+```cpp
+*(ptr - 1); // Goes to the previous element
+```
+
+✅ **Extra**: Array indexing like `arr[i]` is internally the same as `*(arr + i)`.
+That means `arr[i] == *(arr + i)` and `i[arr] == *(i + arr)` (weird but valid!).
+
+This is why pointers and arrays are closely related in C++ — especially in how they interact with memory!
+
