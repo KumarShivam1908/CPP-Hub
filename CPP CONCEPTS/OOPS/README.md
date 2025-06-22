@@ -1,6 +1,6 @@
 # OBJECT OREINTED PROGRAMMING IN C++
 
-## 1. Classes in C++
+## 1. Classes in C++ (Introduction)
 
 #### **User-Defined Types**  
 In C++, primitive types like `int`, `float`, and `char` are built-in. Classes allow us to create our own custom types. For example:  
@@ -90,4 +90,58 @@ For larger projects, split classes into header (`.hpp`) and implementation (`.cp
        s.printName();
        return 0;  // Destructor called here
    }
+
    ```
+## 2. Constructors in Detail
+
+#### **What if we don’t define a constructor or destructor?**
+
+* **C++ provides default versions** of both:
+
+  * **Default Constructor**: Initializes members with default values.
+  * **Default Destructor**: Cleans up when the object goes out of scope.
+* These are *implicitly created* if not explicitly defined.
+
+####  **Why override them?**
+
+* To perform:
+
+  * **Custom initialization** (e.g., assigning values, allocating memory).
+  * **Controlled destruction** (e.g., freeing dynamic memory).
+* Helps implement logic that's essential when an object is created or destroyed.
+
+#### **Parameterized Constructor**
+
+* You can define a constructor that accepts arguments.
+* This allows setting initial values during object creation.
+
+```cpp
+class Example {
+    int data;
+public:
+    Example(int val) { data = val; }
+};
+```
+
+#### 4. **Encapsulation with Constructor Parameters**
+
+* Parameters can be used to **set private member variables**.
+* This ensures the variable is **only set once** at construction and **not modifiable** afterward from outside.
+
+```cpp
+class SecureData {
+private:
+    int secret;
+public:
+    SecureData(int s) : secret(s) {} // Only initialized here
+};
+```
+
+**Why?**
+
+* Promotes **data hiding** and **immutability** where needed.
+* Protects sensitive values from being altered by external code.
+
+---
+
+Let me know if you’d like a [real-world example](f), [diagram](f), or [destructor explanation](f) to go along with this.
