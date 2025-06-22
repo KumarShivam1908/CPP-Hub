@@ -1,4 +1,4 @@
-# C++ 
+# C++ Fundamental Concepts
 
 ## 1.  C++ Build Process
 
@@ -879,7 +879,7 @@ Great! Here's the addition for **Raw Pointers**, structured to match your notes 
 
 ---
 
-## 🔢 **Pointer Types in C++**
+## 18. **Pointer Types in C++**
 
 
 #### 🧷 **1. Raw Pointers**
@@ -1035,6 +1035,76 @@ if (auto sp = joe.lock()) {
 This avoids **dangling pointers** or **crashes** from using deleted memory.
 
 
+## 19. **.cpp vs .hpp**
 
+
+Suppose we are creating a simple class called `Car`. We’ll divide it into two files: one for declaration (`Car.hpp`) and one for implementation (`Car.cpp`).
+
+---
+
+#### **Car.hpp**
+
+```cpp
+// Car.hpp
+#ifndef CAR_HPP
+#define CAR_HPP
+
+class Car {
+public:
+    Car();
+    void startEngine();
+    void stopEngine();
+};
+
+#endif
+```
+
+This header file declares the `Car` class and its public functions. There is no logic here — only the interface.
+
+---
+
+#### **Car.cpp**
+
+```cpp
+// Car.cpp
+#include <iostream>
+#include "Car.hpp"
+
+Car::Car() {
+    std::cout << "Car created.\n";
+}
+
+void Car::startEngine() {
+    std::cout << "Engine started.\n";
+}
+
+void Car::stopEngine() {
+    std::cout << "Engine stopped.\n";
+}
+```
+
+This source file includes the header and provides the actual definitions of the functions declared in `Car.hpp`.
+
+---
+
+#### **main.cpp**
+
+```cpp
+// main.cpp
+#include "Car.hpp"
+
+int main() {
+    Car myCar;
+    myCar.startEngine();
+    myCar.stopEngine();
+    return 0;
+}
+```
+
+In `main.cpp`, we include the header file to use the `Car` class. The compiler links it with the implementation from `Car.cpp`.
+
+---
+
+This structure separates interface from implementation, keeps code maintainable, and promotes reusability across large projects.
 
 
