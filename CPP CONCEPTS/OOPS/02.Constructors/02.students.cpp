@@ -1,7 +1,6 @@
 #include "02.student.hpp"
 
 Student::Student(){
-    // m_name = "no name";
     std::cout<<"Constructor called: "<<m_name<<std::endl;
     std::cout<<"m_name is"<<m_name<<std::endl;
 }

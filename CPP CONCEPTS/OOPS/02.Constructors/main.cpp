@@ -3,5 +3,6 @@
 #include <string>
 int main(){
     Student s2("saaaaar");
+    s2.printName();
     
 }
