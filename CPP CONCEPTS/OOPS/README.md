@@ -242,3 +242,112 @@ Array& operator=(const Array& other) {
 This operator is called when you write something like `arr2 = arr1;` **after both objects have already been constructed**. It's not strictly necessary if you only use copy constructors, but it's **good practice** and part of what's called the **Rule of Three** in C++. If your class needs a destructor, copy constructor, or copy assignment operator (typically because it handles dynamic memory), you should **implement all three** to ensure safe and predictable behavior.
 
 
+## 3. Copy Constructors and Copy Assignment Operators in C++
+
+When I was learning about copy constructors and copy assignment operators in C++, I realized how important they are for managing how objects are copied, especially when dealing with dynamic memory or large data structures. Here’s how I’d explain it to my future self:
+
+### What is a Copy Constructor?
+
+A **copy constructor** is a special constructor in C++ that creates a new object as a copy of an existing object. It’s called in situations like:
+- Passing an object **by value** to a function.
+- Returning an object **by value** from a function.
+- Explicitly creating a copy, e.g., `MyClass b = a;`
+
+**Syntax:**
+```cpp
+MyClass(const MyClass& other);
+
+```
+
+### What is the Copy Assignment Operator?
+
+The **copy assignment operator** is used when you assign one existing object to another after both have been constructed:
+```cpp
+MyClass a, b;
+b = a; // Calls copy assignment operator
+```
+**Syntax:**
+```cpp
+MyClass& operator=(const MyClass& other);
+```
+
+### Why Should I Care?
+
+If my class only contains primitive types, the default versions provided by C++ are usually fine. But if my class manages resources (like dynamic memory), the default versions can cause problems like **double free errors** or **shallow copies**.
+
+#### Example: Dynamic Array
+
+```cpp
+#include <iostream>
+class Array {
+    int* data;
+    int size;
+public:
+    Array(int n) : size(n) {
+        data = new int[size];
+        for (int i = 0; i < size; ++i) data[i] = i;
+        std::cout << "Constructor called\n";
+    }
+    // Copy constructor (deep copy)
+    Array(const Array& other) : size(other.size) {
+        data = new int[size];
+        for (int i = 0; i < size; ++i) data[i] = other.data[i];
+        std::cout << "Copy constructor called\n";
+    }
+    // Copy assignment operator (deep copy)
+    Array& operator=(const Array& other) {
+        std::cout << "Copy assignment operator called\n";
+        if (this != &other) {
+            delete[] data;
+            size = other.size;
+            data = new int[size];
+            for (int i = 0; i < size; ++i) data[i] = other.data[i];
+        }
+        return *this;
+    }
+    ~Array() { delete[] data; std::cout << "Destructor called\n"; }
+};
+```
+
+#### When are Copies Made?
+
+- **Passing by value:** Triggers the copy constructor.
+- **Returning by value:** Triggers the copy constructor.
+- **Assignment:** Triggers the copy assignment operator.
+
+#### How to Avoid Unnecessary Copies
+
+- **Pass by reference** (`const MyClass& obj`) instead of by value to functions.
+- For large objects, this avoids expensive copy operations and improves performance.
+
+#### Preventing Copies
+
+If I want to prevent accidental copying (for example, if my object is large or copying doesn’t make sense), I can:
+- **Delete the copy constructor and assignment operator** (C++11 and later):
+    ```cpp
+    MyClass(const MyClass&) = delete;
+    MyClass& operator=(const MyClass&) = delete;
+    ```
+- Or, **make them private** (older C++), so copying causes a compile error.
+
+#### Debugging Tip
+
+When learning, I add print statements in my copy constructor and assignment operator to see when they’re called. This helps me understand object lifetimes and when copies happen.
+
+#### Summary Table
+
+| Situation                | Copy Constructor | Copy Assignment Operator |
+|--------------------------|-----------------|-------------------------|
+| `MyClass b = a;`         | Yes             | No                      |
+| `b = a;` (after creation)| No              | Yes                     |
+| Pass by value            | Yes             | No                      |
+| Return by value          | Yes             | No                      |
+
+### TL;DR
+
+- Use **pass by reference** to avoid unnecessary copies.
+- Implement custom copy constructor and assignment operator if your class manages resources.
+- Delete or privatize them to prevent accidental copies for large or non-copyable objects.
+- Use print statements to track when copies happen.
+
+**Remember:** Understanding copy constructors and assignment operators is key to writing efficient and safe C++ code, especially as projects get bigger!
