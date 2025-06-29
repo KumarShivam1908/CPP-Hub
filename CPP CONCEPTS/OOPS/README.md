@@ -496,3 +496,24 @@ public:
 };
 ```
 **If you remember this, you'll never get tripped up by weird initialization bugs in C++.**
+
+## 6. Difference Between `struct` and `class` in C++
+
+In C++, both `struct` and `class` can be used to define user-defined data types. However, there are a few key differences between them:
+
+#### 1. **Default Access Specifier**
+
+| Feature              | `struct`           | `class`            |
+|----------------------|--------------------|---------------------|
+| Default Access       | Public             | Private             |
+
+Example:
+```cpp
+struct MyStruct {
+    int x; // Public by default
+};
+
+class MyClass {
+    int x; // Private by default
+};
+
