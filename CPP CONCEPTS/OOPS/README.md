@@ -444,3 +444,55 @@ int main() {
 
 Operator overloading lets you define how operators work for your classes. It makes your code cleaner and more expressive. Always use it to make your custom types feel natural to use!
 
+
+## 5. Member Initializer List
+
+When I first learned about member initializer lists in C++, I realized they're not just a fancy way to write constructors—they actually matter for how objects are built.
+
+#### What is a Member Initializer List?
+
+Instead of assigning values inside the constructor body like this:
+```cpp
+Vector3f() {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+}
+```
+C++ first allocates memory for `x`, `y`, and `z`, then assigns the values. So, construction happens in two steps:
+1. Allocate memory for each member.
+2. Assign values in the constructor body.
+
+But with a **member initializer list**, you can initialize members directly as the object is being created:
+```cpp
+Vector3f() : x(0.0f), y(0.0f), z(0.0f) {
+    // Constructor body (usually empty for simple cases)
+}
+```
+This is more efficient and is the only way to initialize `const` or reference members.
+
+#### Why does order matter?
+
+The order in which you write the initializer list **does not** change the order in which members are initialized. Members are always initialized in the order they are declared in the class, not the order in the initializer list. If you mix up the order, you might get warnings or even bugs if one member depends on another.
+
+#### Example: Wrong Order
+```cpp
+class Example {
+public:
+    int x;
+    int y;
+    Example() : y(x), x(5) {} // y is initialized before x, so y gets garbage!
+};
+```
+Here, `y` is initialized before `x`, so `y(x)` uses an uninitialized value.
+
+#### Correct Way
+```cpp
+class Example {
+public:
+    int x;
+    int y;
+    Example() : x(5), y(x) {} // x is initialized first, then y gets x's value
+};
+```
+**If you remember this, you'll never get tripped up by weird initialization bugs in C++.**
