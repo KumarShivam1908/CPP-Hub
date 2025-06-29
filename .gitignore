@@ -3,5 +3,4 @@
 *.o
 *.obj
 
-.vscode/
-*.vscode/
+**/.vscode/
