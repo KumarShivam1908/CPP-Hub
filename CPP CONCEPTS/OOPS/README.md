@@ -657,7 +657,7 @@ public:
 
 ```
 
-### Usage
+#### Usage
 
 ```cpp
 int main() {
@@ -670,7 +670,7 @@ int main() {
 }
 ```
 
-### TL;DR
+#### TL;DR
 
 If you need to write any of the destructor, copy/move constructor, or copy/move assignment operator, **write all five**. This keeps your class safe and predictable when copying or moving objects!
 
