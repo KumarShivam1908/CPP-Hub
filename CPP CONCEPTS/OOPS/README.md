@@ -516,4 +516,162 @@ struct MyStruct {
 class MyClass {
     int x; // Private by default
 };
+```
+
+## 7. RAII (Resource Acquisition Is Initialization)
+
+When I was learning about RAII in C++, it really changed how I thought about resource management. The idea is simple: **resources (like memory, files, etc.) are acquired and released by objects**. When an object is created, it acquires the resource in its constructor, and when it goes out of scope (even if an exception is thrown), its destructor automatically releases the resource. This makes code safer and less error-prone.
+
+### Example: Safe Dynamic Array
+
+```cpp
+#include <iostream>
+
+class Collection {
+public:
+    Collection() { data = new int[10]; }      // Acquire resource
+    ~Collection() { delete[] data; }          // Release resource
+
+    int& operator[](std::size_t index) { return data[index]; }
+    const int& operator[](std::size_t index) const { return data[index]; }
+
+private:
+    int* data;
+};
+
+int main() {
+    Collection c;
+    c[0] = 10;
+    c[1] = 20;
+    std::cout << "c[0]: " << c[0] << std::endl;
+    return 0; // Destructor called, memory freed
+}
+```
+
+### Why RAII is Awesome
+
+- **Automatic cleanup:** No need to remember to free memory or close files—destructor does it for you.
+- **Exception safety:** Even if an exception is thrown, destructors are called, so resources are not leaked.
+- **Cleaner code:** Less manual resource management, fewer bugs.
+
+**TL;DR:**  
+RAII means tying resource management to object lifetimes. As soon as an object goes out of scope (even with exceptions), its destructor cleans up. This is the C++ way to write safe, robust code!
+
+## 8. Rule of 5 in C++
+
+When I finally understood the Rule of 5 in C++, it made resource management and object copying so much clearer. Here’s how I’d explain it to my future self:
+
+#### What is the Rule of 5?
+
+If your class manages resources (like dynamic memory, file handles, etc.), and you need to define any of these special functions, you should define all five:
+
+1. **Destructor**
+2. **Copy Constructor**
+3. **Copy Assignment Operator**
+4. **Move Constructor**
+5. **Move Assignment Operator**
+
+If you skip some, you might get unwanted behavior or resource bugs.
+
+#### Why does it matter?
+
+If you only define some of these, the compiler might generate the others for you, but those defaults might not do the right thing (like shallow copying pointers).
+
+### Example: Rule of 5 in Action
+```cpp
+#include <iostream>
+#include <algorithm> // For std::copy
+
+class Buffer {
+    int* data;       // Pointer to dynamically allocated array on the heap
+    size_t size;     // Size of the array
+
+public:
+    // Constructor: allocates memory for an array of integers of given size
+    Buffer(size_t n) 
+        : size(n), data(new int[n]) {
+        std::cout << "Constructor\n";
+    }
+
+    // Destructor: releases the dynamically allocated memory
+    ~Buffer() {
+        delete[] data;  // Prevent memory leak
+        std::cout << "Destructor\n";
+    }
+
+    // -------------------- Copy Semantics --------------------
+
+    // Copy Constructor: creates a deep copy of another Buffer object
+    // Allocates new memory and copies each element from the source
+    Buffer(const Buffer& other) 
+        : size(other.size), data(new int[other.size]) {
+        std::copy(other.data, other.data + size, data); // std::copy does deep copying
+        std::cout << "Copy Constructor\n";
+    }
+
+    // Copy Assignment Operator: handles assignment between existing objects
+    // Frees existing memory, then deep copies from the right-hand side (rhs)
+    Buffer& operator=(const Buffer& other) {
+        std::cout << "Copy Assignment\n";
+
+        if (this != &other) { // Guard against self-assignment
+            delete[] data; // Free the old memory to avoid memory leaks
+
+            size = other.size;
+            data = new int[size]; // Allocate new memory
+            std::copy(other.data, other.data + size, data); // Deep copy from source
+        }
+
+        return *this;
+    }
+
+    // -------------------- Move Semantics --------------------
+
+    // Move Constructor: transfers ownership of memory from a temporary object
+    // No deep copy is done — instead, the internal pointer is "moved"
+    Buffer(Buffer&& other) noexcept 
+        : size(other.size), data(other.data) {
+        other.data = nullptr; // Avoid double deletion
+        other.size = 0;
+        std::cout << "Move Constructor\n";
+    }
+
+    // Move Assignment Operator: assigns resources from a temporary object
+    // Frees existing resources and then "steals" the data pointer
+    Buffer& operator=(Buffer&& other) noexcept {
+        std::cout << "Move Assignment\n";
+
+        if (this != &other) { // Guard against self-assignment
+            delete[] data; // Clean up existing resources
+
+            data = other.data; // Take over the resource
+            size = other.size;
+
+            other.data = nullptr; // Nullify source to prevent double deletion
+            other.size = 0;
+        }
+
+        return *this;
+    }
+};
+
+```
+
+### Usage
+
+```cpp
+int main() {
+    Buffer a(10);
+    Buffer b = a;         // Copy constructor
+    Buffer c = std::move(a); // Move constructor
+    b = c;                // Copy assignment
+    c = Buffer(5);        // Move assignment
+    return 0;
+}
+```
+
+### TL;DR
+
+If you need to write any of the destructor, copy/move constructor, or copy/move assignment operator, **write all five**. This keeps your class safe and predictable when copying or moving objects!
+
 
