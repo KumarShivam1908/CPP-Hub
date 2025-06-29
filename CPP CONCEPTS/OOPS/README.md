@@ -351,3 +351,96 @@ When learning, I add print statements in my copy constructor and assignment oper
 - Use print statements to track when copies happen.
 
 **Remember:** Understanding copy constructors and assignment operators is key to writing efficient and safe C++ code, especially as projects get bigger!
+
+## 4. Operator Overloading in C++
+
+When I first learned about operator overloading in C++, it felt like magic—suddenly, I could use operators like `+`, `==`, or even `<<` with my own classes, just like with built-in types! Here’s how I’d explain it to my future self:
+
+#### What is Operator Overloading?
+
+Operator overloading lets us define how operators (like `+`, `-`, `==`, etc.) behave for our custom classes. This makes our objects feel more natural to use and improves code readability.
+
+#### Example: 3D Vector Class
+
+Let’s say I have a `Vector3f` class representing a 3D vector. I want to add two vectors, compare them, increment them, and print them easily.
+
+```cpp
+#include <iostream>
+
+class Vector3f {
+public:
+    float x, y, z;
+
+    // Default constructor
+    Vector3f() : x(0.0f), y(0.0f), z(0.0f) {}
+
+    // Overload + operator (vector addition)
+    Vector3f operator+(const Vector3f& rhs) const {
+        Vector3f result;
+        result.x = x + rhs.x;
+        result.y = y + rhs.y;
+        result.z = z + rhs.z;
+        return result;
+    }
+
+    // Overload pre-increment ++ operator
+    Vector3f operator++() {
+        x += 1.0f;
+        y += 1.0f;
+        z += 1.0f;
+        return *this;
+    }
+
+    // Overload == operator (equality check)
+    bool operator==(const Vector3f& rhs) const {
+        // For real-world code, consider using a tolerance for floating-point comparison!
+        return (x == rhs.x && y == rhs.y && z == rhs.z);
+    }
+};
+
+// Overload << operator for printing
+std::ostream& operator<<(std::ostream& os, const Vector3f& v) {
+    os << "Vector3f(" << v.x << ", " << v.y << ", " << v.z << ")";
+    return os;
+}
+```
+
+#### Using the Overloaded Operators
+
+```cpp
+int main() {
+    Vector3f v1, v2;
+    v1.x = 1.0f; v1.y = 2.0f; v1.z = 3.0f;
+    v2.x = 1.0f; v2.y = 2.0f; v2.z = 3.0f;
+
+    std::cout << "v1: " << v1 << std::endl;
+    std::cout << "v2: " << v2 << std::endl;
+
+    Vector3f v3 = v1 + v2; // Uses overloaded +
+    std::cout << "v3 (Addition): " << v3 << std::endl;
+
+    Vector3f v4 = ++v1; // Uses overloaded ++
+    std::cout << "v4 (After ++v1): " << v4 << std::endl;
+    std::cout << "v1 (After increment): " << v1 << std::endl;
+
+    if (v1 == v2) { // Uses overloaded ==
+        std::cout << "v1 is equal to v2" << std::endl;
+    } else {
+        std::cout << "v1 is not equal to v2" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+### Key Points
+
+- **Operator overloading** makes custom types as intuitive as built-in types.
+- Use `const` where possible for safety and clarity.
+- For floating-point comparisons, consider using a tolerance instead of `==` due to precision issues.
+- Overloading `<<` as a non-member function allows easy printing with `std::cout`.
+
+### TL;DR
+
+Operator overloading lets you define how operators work for your classes. It makes your code cleaner and more expressive. Always use it to make your custom types feel natural to use!
+
