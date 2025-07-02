@@ -756,8 +756,127 @@ int main() {
 }
 ```
 
-### TL;DR
+#### TL;DR
 
 - Use `explicit` to **prevent implicit conversions** that might introduce bugs.
 - Always construct objects **explicitly** when the constructor is marked `explicit`.
 - This makes my code safer and more predictable, especially for single-argument constructors.
+
+## 11. Inheritance in C++: The Family Drama Edition
+
+Welcome to the world of C++ inheritance, where classes pass down their traits like a royal family—sometimes with a little drama!
+
+---
+
+#### What is Inheritance?
+
+- **Base class** (a.k.a. parent, superclass): The OG ancestor with all the cool features.
+- **Derived class** (a.k.a. child, subclass): The new kid who inherits everything from the base, and maybe adds some flair.
+
+**Analogy:**  
+If `Dog` is the base class, then `GoldenRetriever` and `GermanShepherd` are its children. They inherit all the doggy goodness (like barking), but each has its own unique tricks.
+
+---
+
+#### Why Use Inheritance?
+
+- **Code reuse:** Don't repeat yourself—let the kids inherit!
+- **"Is-a" relationship:** If `GoldenRetriever` is a `Dog`, inheritance is your tool.
+- **Extensibility:** Add new features to derived classes without touching the base.
+
+---
+
+### Syntax: How to Inherit
+
+```cpp
+class BaseClass {
+    // Base stuff
+};
+
+class DerivedClass : public BaseClass {
+    // Extra stuff
+};
+```
+- `public` inheritance means "everything public in base is public in derived."
+
+---
+
+#### Example: The Dog Family 
+
+```cpp
+#include <iostream>
+
+// Base class: Dog
+class Dog {
+public:
+    // Bark method: All dogs can bark
+    void bark() {
+        std::cout << "Dog do barks" << std::endl;
+    }
+
+    // Walk method: Moves the dog by incrementing x and y
+    void Walk() {
+        x += 1;
+        y += 1;
+    }
+
+    float x, y; // Position of the dog (public for demo)
+};
+
+// Derived class: GoldenRetriever inherits from Dog
+class GoldenRetriever : public Dog {
+public:
+    // Unique method: Only GoldenRetrievers can retrieve!
+    void Retrieve() {
+        std::cout << "Golden Retriever do retrieve" << std::endl;
+    }
+    int goldenMember; // Unique member to change size
+};
+
+// Derived class: GermanShepherd inherits from Dog
+class GermanShepherd : public Dog {
+public:
+    double shepherdMember; // Unique member to change size
+};
+
+int main() {
+    GoldenRetriever g;      // Create a GoldenRetriever object
+    GermanShepherd gs;      // Create a GermanShepherd object
+
+    g.bark();               // Inherited from Dog
+    gs.bark();              // Inherited from Dog
+    g.Retrieve();           // Unique to GoldenRetriever
+
+    // Size checks: Shows how unique members affect object size
+    std::cout << "Size of GoldenRetriever: " << sizeof(g) << std::endl; // 12 (2 floats + 1 int)
+    std::cout << "Size of GermanShepherd: " << sizeof(gs) << std::endl; // 16 (2 floats + 1 double)
+    std::cout << "Size of Dog: " << sizeof(Dog) << std::endl;           // 8 (2 floats)
+
+    return 0;
+}
+```
+#### Interview Nuggets
+
+- **Q:** What is inheritance?  
+  **A:** Mechanism for a class to acquire properties and behaviors of another class.
+
+- **Q:** What is the default access specifier for inheritance?  
+  **A:** `private` if not specified, but use `public` for classic "is-a" relationships.
+
+- **Q:** Can derived classes add new members?  
+  **A:** Absolutely! That's how they get their unique personalities.
+
+- **Q:** Does inheritance affect object size?  
+  **A:** Yes! Derived class size = base class size + new members.
+
+---
+
+#### TL;DR
+
+- Inheritance = code reuse + "is-a" relationships.
+- Use `public` inheritance for classic hierarchies.
+- Derived classes get all public/protected stuff from base, and can add their own.
+- Always comment your code—future you (and your interviewer) will thank you!
+
+
+
