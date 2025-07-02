@@ -766,7 +766,6 @@ int main() {
 
 Welcome to the world of C++ inheritance, where classes pass down their traits like a royal family—sometimes with a little drama!
 
----
 
 #### What is Inheritance?
 
@@ -776,7 +775,6 @@ Welcome to the world of C++ inheritance, where classes pass down their traits li
 **Analogy:**  
 If `Dog` is the base class, then `GoldenRetriever` and `GermanShepherd` are its children. They inherit all the doggy goodness (like barking), but each has its own unique tricks.
 
----
 
 #### Why Use Inheritance?
 
@@ -784,9 +782,9 @@ If `Dog` is the base class, then `GoldenRetriever` and `GermanShepherd` are its 
 - **"Is-a" relationship:** If `GoldenRetriever` is a `Dog`, inheritance is your tool.
 - **Extensibility:** Add new features to derived classes without touching the base.
 
----
 
-### Syntax: How to Inherit
+
+#### Syntax: How to Inherit
 
 ```cpp
 class BaseClass {
@@ -799,7 +797,6 @@ class DerivedClass : public BaseClass {
 ```
 - `public` inheritance means "everything public in base is public in derived."
 
----
 
 #### Example: The Dog Family 
 
@@ -869,7 +866,7 @@ int main() {
 - **Q:** Does inheritance affect object size?  
   **A:** Yes! Derived class size = base class size + new members.
 
----
+
 
 #### TL;DR
 
@@ -878,5 +875,87 @@ int main() {
 - Derived classes get all public/protected stuff from base, and can add their own.
 - Always comment your code—future you (and your interviewer) will thank you!
 
+## 12. Inheritance Access Specifiers: The "Family Secrets" of C++
+
+Ever wondered how much of your family's secrets you can share with the world? In C++, inheritance access specifiers (`public`, `protected`, `private`) decide just that for your classes! Let's break it down with a fun analogy and then see the code in action—with every line commented for your interview prep.
+
+#### The Analogy
+
+- **public inheritance**: "My kid can tell the world about our family traditions!"  
+    - Public members stay public, protected stay protected, private stay private (hidden).
+- **protected inheritance**: "My kid can know the family secrets, but can't tell outsiders."  
+    - Public and protected members become protected in the derived class.
+- **private inheritance**: "My kid can't even talk about our family outside the house!"  
+    - Public and protected members become private in the derived class.
+
+#### Interview Nuggets
+
+- **Q:** What does `public` inheritance mean?  
+    **A:** Public and protected members of the base class retain their access in the derived class. Public members are accessible outside via derived objects.
+
+- **Q:** Can you access private members of the base class in the derived class?  
+    **A:** Nope! Private means private—only the base class can touch them.
+
+- **Q:** What happens if you use `protected` or `private` inheritance?  
+    **A:** The access level of inherited members gets more restricted. With `protected`, public and protected become protected. With `private`, both become private.
+
+
+
+#### Code Example
+
+```cpp
+#include<iostream>
+
+// Base class with all three access specifiers
+class Base {
+public:
+        int publicMember; // Anyone can access this (if inheritance allows)
+        Base() {
+                std::cout << "Base class constructor called." << std::endl;
+        }
+        ~Base() {
+                std::cout << "Base class destructor called." << std::endl;
+        }
+private:
+        int privateMember; // Only Base can access this
+protected:
+        int protectedMember; // Base and derived classes can access this
+};
+
+// Derived class inherits publicly from Base
+class Derived : public Base {
+        // If you change 'public' to 'protected' or 'private', access changes!
+public:
+        Derived() {
+                std::cout << "Derived class constructor called." << std::endl;
+                publicMember = 10;      // OK: public in Base, stays public here
+                protectedMember = 20;   // OK: protected in Base, accessible here
+                // privateMember = 30;  // ❌ Error: private in Base, not accessible
+        }
+        ~Derived() {
+                std::cout << "Derived class destructor called." << std::endl;
+        }
+};
+
+int main() {
+        Derived d;                  // Constructors called (Base, then Derived)
+        d.publicMember = 30;        // OK: public member accessible outside
+        // d.protectedMember = 40;  // ❌ Error: protected, not accessible outside
+        // d.privateMember = 50;    // ❌ Error: private, not accessible outside
+        return 0;                   // Destructors called (Derived, then Base)
+}
+```
+
+
+#### TL;DR Table
+
+| Inheritance Type | publicMember in Derived | protectedMember in Derived | privateMember in Derived |
+|------------------|------------------------|---------------------------|--------------------------|
+| `public`         | public                 | protected                 | inaccessible             |
+| `protected`      | protected              | protected                 | inaccessible             |
+| `private`        | private                | private                   | inaccessible             |
+
+**Remember:**  
+If you want your derived class to act like the base class (and let the world see its public stuff), use `public` inheritance. For secretive families, use `protected` or `private`—but don't be surprised if your derived class can't share much with the world!
 
 
