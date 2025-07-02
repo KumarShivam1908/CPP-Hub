@@ -946,9 +946,6 @@ int main() {
 }
 ```
 
-
-#### TL;DR Table
-
 ![Inheritance Access Specifiers](https://i.sstatic.net/W6CJ3.jpg)
 
 
