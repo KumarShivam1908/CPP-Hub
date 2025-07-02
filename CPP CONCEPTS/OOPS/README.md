@@ -675,3 +675,89 @@ int main() {
 If you need to write any of the destructor, copy/move constructor, or copy/move assignment operator, **write all five**. This keeps your class safe and predictable when copying or moving objects!
 
 
+## 9. Friend Functions in C++
+
+I was learning about friend functions in C++, I realized they're a way to let specific functions or classes access the private and protected members of another class. Normally, private members are hidden, but sometimes you need to break encapsulation for things like operator overloading or when two classes need tight cooperation.
+
+#### What is a Friend Function?
+
+A **friend function** is a non-member function (or another class) that is given access to the private and protected members of a class by declaring it with the `friend` keyword inside the class.
+
+#### Example: Friend Function and Friend Class
+
+```cpp
+#include <iostream>
+
+class Secret {
+    friend void revealSecret(const Secret& s); // Friend function
+    friend class Inspector;                    // Friend class
+private:
+    int hiddenValue = 123;
+};
+
+void revealSecret(const Secret& s) {
+    std::cout << "The secret is: " << s.hiddenValue << std::endl;
+}
+
+class Inspector {
+public:
+    void inspect(const Secret& s) {
+        std::cout << "Inspector sees: " << s.hiddenValue << std::endl;
+    }
+};
+
+int main() {
+    Secret s;
+    revealSecret(s); // Friend function can access private member
+    Inspector insp;
+    insp.inspect(s); // Friend class can access private member
+    return 0;
+}
+```
+
+### When to Use Friend Functions
+
+- When operator overloading needs access to private members (e.g., `operator<<` for `std::ostream`).
+- When two classes need to tightly cooperate and access each other's internals.
+
+### Caution
+
+- Overusing `friend` can break encapsulation and lead to poor API design.
+- Use it only when necessary and document why it's needed.
+
+## 10. The `explicit` Constructor in C++
+
+When I first learned about the `explicit` keyword in C++, it helped me avoid subtle bugs with type conversions.
+
+#### What does `explicit` do?
+
+If I mark a constructor as `explicit`, it **prevents the compiler from using that constructor for implicit conversions**. This means I can’t accidentally convert an `int` (or other type) to my class without being clear about it.
+
+#### Example
+
+```cpp
+#include <iostream>
+
+class USD {
+public:
+    explicit USD(int value) : m_value(value) {
+        std::cout << "USD Constructor called with value: " << m_value << std::endl;
+    }
+private:
+    int m_value;
+};
+
+int main() {
+    // USD usd = 500;      // ❌ Error: implicit conversion not allowed
+    // USD usd(299.99f);   // ✅ OK, but value will be truncated to 299
+    // USD usd{500.04f};   // ❌ Error: narrowing conversion
+    USD usd{500};          // ✅ OK: explicit construction
+    return 0;
+}
+```
+
+### TL;DR
+
+- Use `explicit` to **prevent implicit conversions** that might introduce bugs.
+- Always construct objects **explicitly** when the constructor is marked `explicit`.
+- This makes my code safer and more predictable, especially for single-argument constructors.
