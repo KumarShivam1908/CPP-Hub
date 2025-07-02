@@ -949,11 +949,8 @@ int main() {
 
 #### TL;DR Table
 
-| Inheritance Type | publicMember in Derived | protectedMember in Derived | privateMember in Derived |
-|------------------|------------------------|---------------------------|--------------------------|
-| `public`         | public                 | protected                 | inaccessible             |
-| `protected`      | protected              | protected                 | inaccessible             |
-| `private`        | private                | private                   | inaccessible             |
+![Inheritance Access Specifiers](https://i.sstatic.net/W6CJ3.jpg)
+
 
 **Remember:**  
 If you want your derived class to act like the base class (and let the world see its public stuff), use `public` inheritance. For secretive families, use `protected` or `private`—but don't be surprised if your derived class can't share much with the world!
