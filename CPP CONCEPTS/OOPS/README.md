@@ -1043,6 +1043,100 @@ Monster destructor called
 EntityBase destructor called
 ```
 
+## 14. Dynamic Dispatch (Runtime Polymorphism) in C++
+
+Dynamic dispatch, also known as **runtime polymorphism**, is a core concept in object-oriented programming that allows you to call the correct overridden function in a class hierarchy **at runtime** using a base class pointer or reference. This is achieved in C++ using **virtual functions**.
+
+#### Why Use Dynamic Dispatch?
+
+- **Flexibility:** Lets you write code that works with base class pointers/references, but automatically calls the derived class's overridden methods.
+- **Extensibility:** You can add new derived classes without changing code that uses base class pointers.
+- **Design Patterns:** Essential for patterns like Strategy, Factory, and Observer.
+
+#### When to Use
+
+- When you want to call overridden methods on objects whose exact type is only known at runtime.
+- When you want to treat a group of related classes uniformly via a common interface (base class).
+
+#### How to Use
+
+- Mark the base class function as `virtual`.
+- Override the function in derived classes using `override` (C++11 and later, for safety).
+- Use base class pointers or references to refer to derived objects.
+
+#### Example 
+
+```cpp
+#include <iostream>
+
+// Base class with a virtual function
+class Base {
+public:
+    Base() {
+        std::cout << "Base constructor called" << std::endl;
+    }
+    // Always make destructors virtual in base classes if you use polymorphism!
+    virtual ~Base() {
+        std::cout << "Base destructor called" << std::endl;
+    }
+    // Virtual function enables dynamic dispatch
+    virtual void display() {
+        std::cout << "Display function in Base class" << std::endl;
+    }
+};
+
+// Derived class overrides the virtual function
+class Derived : public Base {
+public:
+    Derived() {
+        std::cout << "Derived constructor called" << std::endl;
+    }
+    ~Derived() override {
+        std::cout << "Derived destructor called" << std::endl;
+    }
+    // Use 'override' to catch mistakes (e.g., wrong signature)
+    void display() override {
+        std::cout << "Display function in Derived class" << std::endl;
+    }
+};
+
+int main() {
+    Derived a;         // Calls Base then Derived constructor
+    a.display();       // Calls Derived::display()
+
+    Base* b = new Derived(); // Base pointer to Derived object
+    b->display();      // Calls Derived::display() due to virtual function
+    delete b;          // Calls Derived then Base destructor (because destructor is virtual!)
+
+    Base* c = new Base();
+    c->display();      // Calls Base::display()
+    delete c;          // Calls Base destructor
+
+    Base* d = new Derived();
+    d->Base::display(); // Calls Base::display() explicitly (bypasses dynamic dispatch)
+    delete d;           // Calls Derived then Base destructor
+
+    return 0;
+}
+```
+
+### Key Points
+
+- **Virtual Functions:** Mark base class methods as `virtual` to enable dynamic dispatch.
+- **Override Keyword:** Use `override` in derived classes to ensure correct overriding.
+- **Virtual Destructor:** Always declare destructors as `virtual` in base classes if you intend to delete derived objects via base pointers. Otherwise, only the base destructor runs, causing resource leaks!
+- **Explicit Call:** You can call the base version explicitly using `Base::display()`, but this bypasses dynamic dispatch.
+
+### Common Errors
+
+- **Missing Virtual Destructor:** If the base class destructor is not virtual, deleting a derived object via a base pointer will not call the derived destructor, leading to resource leaks.
+- **Wrong Signature:** If the derived function signature doesn't exactly match the base (e.g., missing `const`), it won't override, and dynamic dispatch won't work. The `override` keyword helps catch this.
+- **Forgetting `virtual`:** If you forget to mark the base function as `virtual`, dynamic dispatch won't happen; the base version will always be called.
+
+
+
+
+
 
 
 
