@@ -953,3 +953,96 @@ int main() {
 If you want your derived class to act like the base class (and let the world see its public stuff), use `public` inheritance. For secretive families, use `protected` or `private`—but don't be surprised if your derived class can't share much with the world!
 
 
+## 13. Inheritance with Different Constructors: The "Family Tree with Arguments" Edition
+
+Ever wondered how constructors work in a C++ inheritance chain, especially when each ancestor wants a different gift (argument) at birth?
+
+#### The Analogy
+
+- **TopLevel**: The grandparent who insists every child brings a special message (argument) when born.
+- **EntitiyBase**: The parent who sometimes wants a name, sometimes not, but always has to please TopLevel first.
+- **Monster**: The child who can be born nameless or with a fearsome name, but must always follow the family tradition.
+
+#### Key Interview Nuggets
+
+- **Q:** How do constructors get called in an inheritance chain?
+    **A:** Base class constructors are always called first, then derived class constructors.
+- **Q:** How do you pass arguments to a base class constructor?
+    **A:** Use the initializer list in the derived class constructor: `Derived(args) : Base(args) {}`.
+- **Q:** What if the base class has no default constructor?
+    **A:** You *must* explicitly call a base constructor with arguments from the derived class initializer list.
+- **Q:** What about destructors?
+    **A:** Destructors are called in *reverse* order: derived first, then base.
+
+---
+
+#### Example:
+
+```cpp
+#include <iostream>
+#include <string>
+
+// TopLevel: The grandparent who needs an argument at construction
+class TopLevel {
+public:
+        TopLevel(std::string arg) {
+                std::cout << "TopLevel constructor called with arg: " << arg << std::endl;
+        }
+};
+
+// EntitiyBase: The parent, always calls TopLevel with "arg"
+class EntitiyBase : public TopLevel {
+public:
+        // Default constructor: passes "arg" to TopLevel
+        EntitiyBase() : TopLevel("arg") {
+                std::cout << "EntityBase default constructor called" << std::endl;
+        }
+        // Constructor with name: passes "arg" to TopLevel, sets name
+        EntitiyBase(std::string name) : TopLevel("arg"), name(name) {
+                std::cout << "EntityBase constructor with name called: " << name << std::endl;
+        }
+        // Destructor: cleans up EntityBase
+        ~EntitiyBase() {
+                std::cout << "EntityBase destructor called" << std::endl;
+        }
+private:
+        std::string name; // Private member to store the name
+};
+
+// Monster: The child, can be born with or without a name
+class Monster : public EntitiyBase {
+public:
+        // Default constructor: calls EntityBase default constructor
+        Monster() : EntitiyBase() {
+                std::cout << "Monster constructor called" << std::endl;
+        }
+        // Constructor with name: calls EntityBase(name)
+        Monster(std::string name) : EntitiyBase(name) {
+                std::cout << "Monster constructor with name called: " << name << std::endl;
+        }
+        // Destructor: cleans up Monster
+        ~Monster() {
+                std::cout << "Monster destructor called" << std::endl;
+        }
+};
+
+int main() {
+        Monster m1; // 👶 Calls Monster(), which calls EntityBase(), which calls TopLevel("arg")
+        // Monster m2("Dragon"); // 👹 Uncomment to create a Monster with a name
+        return 0; // Destructors called in reverse: Monster, EntityBase, TopLevel
+}
+```
+
+#### Output Walkthrough
+
+```
+TopLevel constructor called with arg: arg
+EntityBase default constructor called
+Monster constructor called
+Monster destructor called
+EntityBase destructor called
+```
+
+
+
+
