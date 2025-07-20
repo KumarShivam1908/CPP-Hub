@@ -64,5 +64,5 @@ If you share our enthusiasm for graphics programming, feel free to explore, cont
 
 📧 Contact: [Kumar Shivam](mailto:hey.kumarshivam@gmail.com)
 📌 [LinkedIn](https://www.linkedin.com/in/kumar-shivam-b8b196258/)
-📌 [LeetCode](https://takeuforward.org/plus/profile/KumarShivam1804)
+📌 [TakeUForward](https://takeuforward.org/plus/profile/KumarShivam1804)
 
